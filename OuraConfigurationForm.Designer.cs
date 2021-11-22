@@ -48,14 +48,16 @@ namespace ExcelOuraVSTOAddIn
             this.chkAll = new System.Windows.Forms.CheckBox();
             this.errorProviderApp = new System.Windows.Forms.ErrorProvider(this.components);
             this.btnReinitialize = new System.Windows.Forms.Button();
-            this.lvListView = new ExcelOuraVSTOAddIn.ListViewWithReordering();
-            this.clmFieldName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmOuraSection = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.clmCustomLabel = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
+            this.chkDescription = new System.Windows.Forms.CheckBox();
+            this.lvListView = new ExcelOuraVSTOAddIn.ListViewWithReordering();
+            this.clmFieldName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmOuraSection = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmCustomLabel = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.clmDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             ((System.ComponentModel.ISupportInitialize)(this.pImage)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderApp)).BeginInit();
             this.SuspendLayout();
@@ -63,7 +65,7 @@ namespace ExcelOuraVSTOAddIn
             // btnOk
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOk.Location = new System.Drawing.Point(398, 442);
+            this.btnOk.Location = new System.Drawing.Point(525, 442);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 8;
@@ -112,7 +114,7 @@ namespace ExcelOuraVSTOAddIn
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(478, 442);
+            this.btnCancel.Location = new System.Drawing.Point(605, 442);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 9;
@@ -155,10 +157,11 @@ namespace ExcelOuraVSTOAddIn
             this.chkIncludeHeaders.AutoSize = true;
             this.chkIncludeHeaders.Location = new System.Drawing.Point(383, 81);
             this.chkIncludeHeaders.Name = "chkIncludeHeaders";
-            this.chkIncludeHeaders.Size = new System.Drawing.Size(103, 17);
+            this.chkIncludeHeaders.Size = new System.Drawing.Size(132, 17);
             this.chkIncludeHeaders.TabIndex = 4;
-            this.chkIncludeHeaders.Text = "Display Headers";
+            this.chkIncludeHeaders.Text = "Display Excel Headers";
             this.chkIncludeHeaders.UseVisualStyleBackColor = true;
+            this.chkIncludeHeaders.CheckedChanged += new System.EventHandler(this.chkIncludeHeaders_CheckedChanged);
             // 
             // Section
             // 
@@ -205,45 +208,6 @@ namespace ExcelOuraVSTOAddIn
             this.btnReinitialize.UseVisualStyleBackColor = true;
             this.btnReinitialize.Click += new System.EventHandler(this.btnReinitialize_Click);
             // 
-            // lvListView
-            // 
-            this.lvListView.Alignment = System.Windows.Forms.ListViewAlignment.SnapToGrid;
-            this.lvListView.AllowDrop = true;
-            this.lvListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.lvListView.CheckBoxes = true;
-            this.lvListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.clmFieldName,
-            this.clmOuraSection,
-            this.clmCustomLabel});
-            this.lvListView.FullRowSelect = true;
-            this.lvListView.GridLines = true;
-            this.lvListView.HideSelection = false;
-            this.lvListView.Location = new System.Drawing.Point(18, 169);
-            this.lvListView.Name = "lvListView";
-            this.lvListView.ShowGroups = false;
-            this.lvListView.Size = new System.Drawing.Size(521, 267);
-            this.lvListView.TabIndex = 5;
-            this.lvListView.UseCompatibleStateImageBehavior = false;
-            this.lvListView.View = System.Windows.Forms.View.Details;
-            this.lvListView.DoubleClick += new System.EventHandler(this.lvListView_DoubleClick);
-            // 
-            // clmFieldName
-            // 
-            this.clmFieldName.Text = "Field Name";
-            this.clmFieldName.Width = 200;
-            // 
-            // clmOuraSection
-            // 
-            this.clmOuraSection.Text = "Oura Section";
-            this.clmOuraSection.Width = 100;
-            // 
-            // clmCustomLabel
-            // 
-            this.clmCustomLabel.Text = "Custom Label";
-            this.clmCustomLabel.Width = 200;
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
@@ -287,12 +251,69 @@ namespace ExcelOuraVSTOAddIn
             this.label9.TabIndex = 18;
             this.label9.Text = "Double click a field to change the label displayed in the header in Excel.";
             // 
+            // chkDescription
+            // 
+            this.chkDescription.AutoSize = true;
+            this.chkDescription.Location = new System.Drawing.Point(383, 102);
+            this.chkDescription.Name = "chkDescription";
+            this.chkDescription.Size = new System.Drawing.Size(166, 17);
+            this.chkDescription.TabIndex = 19;
+            this.chkDescription.Text = "Include Description in Header";
+            this.chkDescription.UseVisualStyleBackColor = true;
+            // 
+            // lvListView
+            // 
+            this.lvListView.Alignment = System.Windows.Forms.ListViewAlignment.SnapToGrid;
+            this.lvListView.AllowDrop = true;
+            this.lvListView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lvListView.CheckBoxes = true;
+            this.lvListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.clmFieldName,
+            this.clmOuraSection,
+            this.clmCustomLabel,
+            this.clmDescription});
+            this.lvListView.FullRowSelect = true;
+            this.lvListView.GridLines = true;
+            this.lvListView.HideSelection = false;
+            this.lvListView.Location = new System.Drawing.Point(18, 169);
+            this.lvListView.Name = "lvListView";
+            this.lvListView.ShowGroups = false;
+            this.lvListView.ShowItemToolTips = true;
+            this.lvListView.Size = new System.Drawing.Size(648, 267);
+            this.lvListView.TabIndex = 5;
+            this.lvListView.UseCompatibleStateImageBehavior = false;
+            this.lvListView.View = System.Windows.Forms.View.Details;
+            this.lvListView.DoubleClick += new System.EventHandler(this.lvListView_DoubleClick);
+            // 
+            // clmFieldName
+            // 
+            this.clmFieldName.Text = "Field Name";
+            this.clmFieldName.Width = 165;
+            // 
+            // clmOuraSection
+            // 
+            this.clmOuraSection.Text = "Oura Section";
+            this.clmOuraSection.Width = 100;
+            // 
+            // clmCustomLabel
+            // 
+            this.clmCustomLabel.Text = "Custom Label";
+            this.clmCustomLabel.Width = 120;
+            // 
+            // clmDescription
+            // 
+            this.clmDescription.Text = "Description";
+            this.clmDescription.Width = 400;
+            // 
             // OuraConfigurationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(564, 473);
+            this.ClientSize = new System.Drawing.Size(691, 473);
+            this.Controls.Add(this.chkDescription);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
@@ -349,5 +370,7 @@ namespace ExcelOuraVSTOAddIn
         private Label label8;
         private Label label7;
         private Label label6;
+        private ColumnHeader clmDescription;
+        private CheckBox chkDescription;
     }
 }

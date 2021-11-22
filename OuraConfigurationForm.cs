@@ -20,6 +20,7 @@ namespace ExcelOuraVSTOAddIn
         public bool IncludeHeaders { get; set; }
         public DateTime EndDate { get; set; }
         public DateTime StartDate { get; set; }
+        public bool IncludeDescriptions { get; set; }
 
         private void OuraConfigurationForm_Load(object sender, EventArgs e)
         {
@@ -28,6 +29,8 @@ namespace ExcelOuraVSTOAddIn
             dtmEndDate.Value = ((EndDate == default(DateTime)) ? DateTime.Today : EndDate);
             dtmStartDate.Value = ((StartDate == default(DateTime)) ? DateTime.Today.AddDays(-14) : StartDate);
             chkIncludeHeaders.Checked = IncludeHeaders;
+            chkDescription.Checked = IncludeDescriptions;
+            chkDescription.Enabled = IncludeHeaders;    // If IncludeHeaders is checked, enable Description
 
             InitializeListView();
         }
@@ -48,7 +51,7 @@ namespace ExcelOuraVSTOAddIn
             //lvListView.Groups.Add(sg);
             //lvListView.Groups.Add(ag);
             //lvListView.Groups.Add(rg);
-            
+
             foreach (OuraFields aField in OuraFields.CurrentFields().OrderBy(i => i.FieldOrder))
             {
                 // For more complex fields, don't show them - configured with Accessible = false
@@ -75,6 +78,15 @@ namespace ExcelOuraVSTOAddIn
 
                 i.SubItems.Add(aField.OuraSection);
                 i.SubItems.Add(aField.CustomLabel);
+                i.SubItems.Add(aField.FieldDescription);
+                if (!String.IsNullOrEmpty(aField.FieldDescription))
+                {
+                    i.ToolTipText = string.Format("{0}: {1}", aField.FieldName, aField.FieldDescription);
+                }
+                else
+                {
+                    i.ToolTipText = aField.FieldName;
+                }
                 i.Checked = aField.FieldSelected;
 
                 lvListView.Items.Add(i);
@@ -104,6 +116,7 @@ namespace ExcelOuraVSTOAddIn
                 StartDate = dtmStartDate.Value;
                 EndDate = dtmEndDate.Value;
                 IncludeHeaders = chkIncludeHeaders.Checked;
+                IncludeDescriptions = chkDescription.Checked;
 
                 // Work through all fields in the table and update the OuraFields singleton accordingly
                 int fieldOrder = 1;
@@ -188,6 +201,24 @@ namespace ExcelOuraVSTOAddIn
             OuraFields.ResetFields();
             lvListView.Items.Clear();
             InitializeListView();
+        }
+
+        /// <summary>
+        /// You can only show descriptions in the header if the header is enabled. Otherwise, 
+        /// clear it out and disable it
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void chkIncludeHeaders_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkIncludeHeaders.Checked)
+            {
+                chkDescription.Enabled = true;
+            } else
+            {
+                chkDescription.Enabled = false;
+                chkDescription.Checked = false;
+            }
         }
     }
 }

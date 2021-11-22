@@ -1,14 +1,13 @@
 ﻿using Microsoft.Office.Tools.Ribbon;
+using Newtonsoft.Json;
+using OuraAPIInterface;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
-using System.Text;
+using System.Reflection;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
-using OuraAPIInterface;
-using System.Configuration;
-using System.Reflection;
-using Newtonsoft.Json;
 
 namespace ExcelOuraVSTOAddIn
 {
@@ -48,11 +47,11 @@ namespace ExcelOuraVSTOAddIn
         private void btnGetOuraData_Click(object sender, RibbonControlEventArgs e)
         {
             // Get configuration information from the user
-
             OuraConfigurationForm form = new OuraConfigurationForm();
 
             // Load user settings
             form.IncludeHeaders = OuraExcelSettings.Default.IncludeHeaders;
+            form.IncludeDescriptions = OuraExcelSettings.Default.IncludeDescriptions;
             if (OuraExcelSettings.Default.FormSize != System.Drawing.Size.Empty) 
                 form.Size = OuraExcelSettings.Default.FormSize;
             if (OuraExcelSettings.Default.FormLocation != System.Drawing.Point.Empty) // And it is visible on the screen??  && OuraExcelSettings.Default.FormSize < Screen.
@@ -83,8 +82,6 @@ namespace ExcelOuraVSTOAddIn
             form.StartDate = OuraExcelSettings.Default.StartDate;
             form.EndDate = OuraExcelSettings.Default.EndDate;   // Only set if the last time wasn't using the current day
 
-            //form.OuraFieldsForForm = OuraFields.CurrentFields();
-
             // Display the Configuration form
             DialogResult result = form.ShowDialog();
 
@@ -97,6 +94,8 @@ namespace ExcelOuraVSTOAddIn
             {
                 // Store the selected values in settings for the next use
                 OuraExcelSettings.Default.IncludeHeaders = form.IncludeHeaders;
+                OuraExcelSettings.Default.IncludeDescriptions = form.IncludeDescriptions;
+
                 OuraExcelSettings.Default.FormSize = form.Size;
                 OuraExcelSettings.Default.FormLocation = form.Location;
                 OuraExcelSettings.Default.Fields = JsonConvert.SerializeObject(OuraFields.CurrentFields());
@@ -159,10 +158,11 @@ namespace ExcelOuraVSTOAddIn
                 {
                     foreach (OuraFields f in fieldlist)
                     {
+                        // Only pass a description if the user wants to see the descriptions
                         if( String.IsNullOrEmpty(f.CustomLabel))
-                            WriteCellToExcel(ref activeCell, f.FieldName);
+                            WriteCellToExcelHeader(ref activeCell, f.FieldName, (form.IncludeDescriptions ? f.FieldDescription : null));
                         else
-                            WriteCellToExcel(ref activeCell, f.CustomLabel);
+                            WriteCellToExcelHeader(ref activeCell, f.CustomLabel, (form.IncludeDescriptions ? f.FieldDescription : null));
                     }
                     currentRow++;
 
@@ -202,6 +202,19 @@ namespace ExcelOuraVSTOAddIn
         {
                 currentCell.Value = value;
                 currentCell = currentCell.Next;
+        }
+
+        private void WriteCellToExcelHeader(ref Excel.Range currentCell, object value, string description)
+        {
+            currentCell.Value2 = value;
+            currentCell.Font.Bold = true;
+            if (!String.IsNullOrEmpty(description))
+            {
+                //currentCell.AddComment(description);  // Comment appears bolded, note does not
+                currentCell.NoteText(description);
+            }
+            currentCell = currentCell.Next;
+
         }
 
         /// <summary>
