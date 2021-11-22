@@ -245,7 +245,7 @@
     <Content Include="Resources\OuraIcon.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OuraAPIInterface\OuraAPIInterface.csproj">
+    <ProjectReference Include="OuraAPIInterface\OuraAPIInterface.csproj">
       <Project>{f416711e-5c33-4f10-8fcb-1d4f4eab4f59}</Project>
       <Name>OuraAPIInterface</Name>
     </ProjectReference>
