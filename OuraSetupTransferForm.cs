@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace ExcelOuraVSTOAddIn
 {
-    public partial class OuraConfigurationForm : Form
+    public partial class OuraSetupTransferForm : Form
     {
-        public OuraConfigurationForm()
+        public OuraSetupTransferForm()
         {
             InitializeComponent();
         }
@@ -104,7 +104,7 @@ namespace ExcelOuraVSTOAddIn
             // Make sure there is at least one field selected to show in Excel
             if (lvListView.CheckedItems.Count == 0)
             {
-                MessageBox.Show("Nothing has been selected to be imported into Excel. Please select one or more fields to continue.");
+                MessageBox.Show("Nothing has been selected to be imported into Excel. Please select one or more fields to continue.", "Excel Oura Add-In");
                 errorProviderApp.SetError(lvListView, "Nothing has been selected to be imported into Excel. Please select one or more fields to continue.");
             }
             else

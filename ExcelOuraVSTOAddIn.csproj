@@ -26,13 +26,36 @@
     <NoStandardLibraries>false</NoStandardLibraries>
     <RootNamespace>ExcelOuraVSTOAddIn</RootNamespace>
     <AssemblyName>ExcelOuraVSTOAddIn</AssemblyName>
-    <LoadBehavior>3</LoadBehavior>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <DefineConstants>VSTO40</DefineConstants>
+    <IsWebBootstrapper>False</IsWebBootstrapper>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <BootstrapperComponentsLocation>HomeSite</BootstrapperComponentsLocation>
+    <PublishUrl>publish\</PublishUrl>
+    <InstallUrl />
+    <TargetCulture>en</TargetCulture>
+    <ApplicationVersion>1.0.0.6</ApplicationVersion>
+    <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateInterval>5</UpdateInterval>
+    <UpdateIntervalUnits>days</UpdateIntervalUnits>
+    <ProductName>ExcelOuraVSTOAddIn</ProductName>
+    <PublisherName>Todd Greve</PublisherName>
+    <SupportUrl />
+    <FriendlyName>ExcelOuraVSTOAddIn</FriendlyName>
+    <OfficeApplicationDescription>Import data from the Oura Dashboard into Excel</OfficeApplicationDescription>
+    <LoadBehavior>3</LoadBehavior>
   </PropertyGroup>
   <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.VSTORuntime.4.0">
       <Visible>False</Visible>
       <ProductName>Microsoft Visual Studio 2010 Tools for Office Runtime %28x86 and x64%29</ProductName>
@@ -113,6 +136,7 @@
       <Private>True</Private>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -172,6 +196,12 @@
     <Compile Include="ChangeLabelForm.Designer.cs">
       <DependentUpon>ChangeLabelForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ConfigureOuraToken.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ConfigureOuraToken.Designer.cs">
+      <DependentUpon>ConfigureOuraToken.cs</DependentUpon>
+    </Compile>
     <Compile Include="OuraExcelSettings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -180,11 +210,11 @@
     <Compile Include="ListViewWithReordering.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="OuraConfigurationForm.cs">
+    <Compile Include="OuraSetupTransferForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OuraConfigurationForm.Designer.cs">
-      <DependentUpon>OuraConfigurationForm.cs</DependentUpon>
+    <Compile Include="OuraSetupTransferForm.Designer.cs">
+      <DependentUpon>OuraSetupTransferForm.cs</DependentUpon>
     </Compile>
     <Compile Include="OuraFields.cs" />
     <Compile Include="OuraRibbonBar.cs">
@@ -199,8 +229,11 @@
     <EmbeddedResource Include="ChangeLabelForm.resx">
       <DependentUpon>ChangeLabelForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OuraConfigurationForm.resx">
-      <DependentUpon>OuraConfigurationForm.cs</DependentUpon>
+    <EmbeddedResource Include="ConfigureOuraToken.resx">
+      <DependentUpon>ConfigureOuraToken.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OuraSetupTransferForm.resx">
+      <DependentUpon>OuraSetupTransferForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OuraRibbonBar.resx">
       <DependentUpon>OuraRibbonBar.cs</DependentUpon>
@@ -242,7 +275,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Resources\OuraIcon.jpg" />
+    <None Include="Resources\OuraDarkSolid.png" />
+    <Content Include="Resources\OuraIconDark.jpg" />
+    <Content Include="Resources\OuraIconLight.jpg" />
+    <None Include="res\Settings.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="OuraAPIInterface\OuraAPIInterface.csproj">
@@ -272,8 +308,8 @@
     <VisualStudio>
       <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
         <ProjectProperties HostName="Excel" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="Excel" Language="cs" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\16.0\Excel\InstallRoot\Path#excel.exe" DebugInfoCommandLine="/x" AddItemTemplatesGuid="{51063C3A-E220-4D12-8922-BDA915ACD783}" />
-        <Host Name="Excel" GeneratedCodeNamespace="ExcelOuraVSTOAddIn" IconIndex="0">
-          <HostItem Name="ThisAddIn" Code="ThisAddIn.cs" CanonicalName="AddIn" CanActivate="false" IconIndex="1" Blueprint="ThisAddIn.Designer.xml" GeneratedCode="ThisAddIn.Designer.cs" />
+        <Host Name="Excel" GeneratedCodeNamespace="ExcelOuraVSTOAddIn" PublishedHash="69C324AB27932AA2FBF2B7EA72250886FF164DE6" IconIndex="0">
+          <HostItem Name="ThisAddIn" Code="ThisAddIn.cs" CanonicalName="AddIn" PublishedHash="2C7ADE0A4A95BDB94C93566E7AC7364B5EA6152D" CanActivate="false" IconIndex="1" Blueprint="ThisAddIn.Designer.xml" GeneratedCode="ThisAddIn.Designer.cs" />
         </Host>
       </FlavorProperties>
     </VisualStudio>

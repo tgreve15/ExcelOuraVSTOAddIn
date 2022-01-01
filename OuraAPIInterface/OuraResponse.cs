@@ -43,7 +43,7 @@ namespace OuraAPIInterface
         public int? Restless { get; set; }
         public int? Efficiency { get; set; }
         public int? MidpointTime { get; set; }
-        public int? HRLowest { get; set; }
+        public double? HRLowest { get; set; }
         public double? HRAverage { get; set; }
         public int? RMSSD { get; set; }
         public double? BreathAverage { get; set; }
@@ -318,6 +318,40 @@ namespace OuraAPIInterface
         public String BedtimeStart { get; set; }
         [DataMember(Name = "bedtime_end")]
         public String BedtimeEnd { get; set; }
+        [DataMember(Name = "breath_average")]
+        public double? BreathAverage { get; set; }
+        [DataMember(Name = "duration")]
+        public int? Duration { get; set; }
+        [DataMember(Name = "total")]
+        public int? Total { get; set; }
+        [DataMember(Name = "awake")]
+        public int? Awake { get; set; }
+        [DataMember(Name = "rem")]
+        public int? REM { get; set; }
+        [DataMember(Name = "deep")]
+        public int? Deep { get; set; }
+        [DataMember(Name = "light")]
+        public int? Light { get; set; }
+        [DataMember(Name = "midpoint_time")]
+        public int? MidpointTime { get; set; }
+        [DataMember(Name = "efficiency")]
+        public int? Efficiency { get; set; }
+        [DataMember(Name = "restless")]
+        public int? Restless { get; set; }
+        [DataMember(Name = "onset_latency")]
+        public int? OnsetLatency { get; set; }
+        [DataMember(Name = "hr_5min")]
+        public List<int> HR5Min { get; set; }
+        [DataMember(Name = "hr_average")]
+        public double? HRAverage { get; set; }
+        [DataMember(Name = "hr_lowest")]
+        public double? HRLowest { get; set; }
+        [DataMember(Name = "hypnogram_5min")]
+        public string Hypnogram5Min { get; set; }
+        [DataMember(Name = "rmssd")]
+        public int? RMSSD { get; set; }
+        [DataMember(Name = "rmssd_5min")]
+        public List<int> RMSSD5Min { get; set; }
         [DataMember(Name = "score")]
         public int? Score { get; set; }
         [DataMember(Name = "score_total")]
@@ -334,43 +368,6 @@ namespace OuraAPIInterface
         public int? ScoreDeep { get; set; }
         [DataMember(Name = "score_alignment")]
         public int? ScoreAlignment { get; set; }
-        [DataMember(Name = "total")]
-        public int? Total { get; set; }
-        [DataMember(Name = "duration")]
-        public int? Duration { get; set; }
-        [DataMember(Name = "awake")]
-        public int? Awake { get; set; }
-        [DataMember(Name = "light")]
-        public int? Light { get; set; }
-        [DataMember(Name = "rem")]
-        public int? REM { get; set; }
-        [DataMember(Name = "deep")]
-        public int? Deep { get; set; }
-        [DataMember(Name = "onset_latency")]
-        public int? OnsetLatency { get; set; }
-        [DataMember(Name = "restless")]
-        public int? Restless { get; set; }
-        [DataMember(Name = "efficiency")]
-        public int? Efficiency { get; set; }
-        [DataMember(Name = "midpoint_time")]
-        public int? MidpointTime { get; set; }
-        [DataMember(Name = "hr_lowest")]
-        public int? HRLowest { get; set; }
-        [DataMember(Name = "hr_average")]
-        public double? HRAverage { get; set; }
-        [DataMember(Name = "rmssd")]
-        public int? RMSSD { get; set; }
-        [DataMember(Name = "breath_average")]
-        public double? BreathAverage { get; set; }
-        [DataMember(Name = "temperature_delta")]
-        public double? TemperatureDelta { get; set; }
-        [DataMember(Name = "hypnogram_5min")]
-        public string Hypnogram5Min { get; set; }
-        [DataMember(Name = "hr_5min")]
-        public List<int> HR5Min { get; set; }
-        [DataMember(Name = "rmssd_5min")]
-        public List<int> RMSSD5Min { get; set; }
-
         [DataMember(Name = "temperature_deviation")]
         public double? TemperatureDeviation { get; set; }
         [DataMember(Name = "temperature_trend_deviation")]
@@ -381,6 +378,8 @@ namespace OuraAPIInterface
         public int? BedtimeEndDelta { get; set; }
         [DataMember(Name = "midpoint_at_delta")]
         public int? MidpointAtDelta { get; set; }
+        [DataMember(Name = "temperature_delta")]
+        public double? TemperatureDelta { get; set; }
 
         public String BedtimeStartFormatLocal()
         {

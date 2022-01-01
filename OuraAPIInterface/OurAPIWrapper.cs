@@ -7,12 +7,19 @@ using System.Windows.Forms;
 
 namespace OuraAPIInterface
 {
+
     /// <summary>
     /// Wrapper class to handle all calls to the Oura API.
     /// </summary>
     static public class OuraAPIWrapper
     {
         private static string ouraToken;
+
+        //private static void OnError(ErrorEventArgs e)
+        //{
+        //    //Console.WriteLine(args.ErrorContext.Error.Message);
+        //    //args.ErrorContext.Handled = true;
+        //}
 
         public static string APIToken()
         {
@@ -23,9 +30,20 @@ namespace OuraAPIInterface
             return ouraToken;
         }
 
+        public static void APIToken(string token)
+        {
+            ouraToken = token;
+        }
+
         public static string BaseURL()
         {
             return "https://api.ouraring.com";
+        }
+
+        public static UserInfoResponse PerformAuthentication(string apiToken)
+        {
+            string urlRequest = BaseURL() + "/v1/userinfo?access_token=" + apiToken;
+            return MakeRequest<UserInfoResponse>(urlRequest);
         }
 
         public static UserInfoResponse PerformAuthentication()
@@ -95,9 +113,24 @@ namespace OuraAPIInterface
                     {
                         jsonResponse = Reader.ReadToEnd();
                     }
-                    T objectResult = JsonConvert.DeserializeObject<T>(jsonResponse);
+
+                    JsonSerializerSettings settings = new JsonSerializerSettings();
+                    // The following will only trigger when running through the debugger
+                    // and will test if any additional attributes are returned in the API
+                    // that aren't currently handled
+                    if (System.Diagnostics.Debugger.IsAttached)
+                    {
+                        settings.MissingMemberHandling = MissingMemberHandling.Error;
+                    }
+                    T objectResult = JsonConvert.DeserializeObject<T>(jsonResponse,settings);
                     return objectResult;
                 }
+            }
+            catch(Newtonsoft.Json.JsonSerializationException jex)
+            {
+                // 'Could not find member 'score_total' on object of type 'SleepResponse'. Path 'sleep[0].score_total', line 1, position 1640.'
+                MessageBox.Show(String.Format("Oura API Extended. {0}", jex.Message));
+                return default(T);
             }
             catch (Exception e)
             {
@@ -105,6 +138,8 @@ namespace OuraAPIInterface
                 return default(T);
             }
         }
+
+
 
         /// <summary>
         /// Perform the API request passed in and return the result as a JSON string.

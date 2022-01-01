@@ -21,6 +21,13 @@ namespace ExcelOuraVSTOAddIn
         /// <param name="e"></param>
         private void OuraRibbonBar_Load(object sender, RibbonUIEventArgs e)
         {
+            // Only show the Get Heart Rate data button when we are in the debugger
+            // At least until working out if it's worth keeping
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                btnGetOuraHeartRates.Visible = true;
+            }
+
             // Verify that the Oura API Token has been configured, if not request them to get one and configure it
             if (String.IsNullOrEmpty(ConfigurationManager.AppSettings["OuraAPIKey"]))
             {
@@ -30,10 +37,9 @@ namespace ExcelOuraVSTOAddIn
                 // Once you've created the token, update the key in "app.Config" / "ExcelOuraVSTOAddIn.dll.config" to reflect this value
                 //
                 btnGetOuraData.Enabled = false;
-                String message = String.Format("Oura API Key not configured. \n" +
-                    "Create a Personal Access Token from {0} and add the token to the application configuration file. \n" +
-                    "Once completed, restart Excel. \n" +
-                    "Oura Excel integration disabled.", "https://cloud.ouraring.com/personal-access-tokens");
+                String message = "Oura Personal Access Token not configured. \n" +
+                    "Go to the 'Configure Oura Token' command and configure this as instructed.\n" +
+                    "Oura Excel integration disabled.";
                 MessageBox.Show(message, "Excel Oura Add-In Disabled");
                 return;
             }
@@ -47,27 +53,27 @@ namespace ExcelOuraVSTOAddIn
         private void btnGetOuraData_Click(object sender, RibbonControlEventArgs e)
         {
             // Get configuration information from the user
-            OuraConfigurationForm form = new OuraConfigurationForm();
+            OuraSetupTransferForm form = new OuraSetupTransferForm();
 
             // Load user settings
             form.IncludeHeaders = OuraExcelSettings.Default.IncludeHeaders;
             form.IncludeDescriptions = OuraExcelSettings.Default.IncludeDescriptions;
-            if (OuraExcelSettings.Default.FormSize != System.Drawing.Size.Empty) 
+            if (OuraExcelSettings.Default.FormSize != System.Drawing.Size.Empty)
                 form.Size = OuraExcelSettings.Default.FormSize;
             if (OuraExcelSettings.Default.FormLocation != System.Drawing.Point.Empty) // And it is visible on the screen??  && OuraExcelSettings.Default.FormSize < Screen.
                 form.Location = OuraExcelSettings.Default.FormLocation;
 
-            if(!String.IsNullOrEmpty(OuraExcelSettings.Default.Fields))
+            if (!String.IsNullOrEmpty(OuraExcelSettings.Default.Fields))
             {
                 // Import the fields list and update the modifiable bits of the system fields
                 // Don't trust that what is in the configuration file matches the system settings
-                List<OuraFields> localFields = JsonConvert.DeserializeObject<List<OuraFields>> (OuraExcelSettings.Default.Fields);
-                if(!(localFields is null) && (localFields.Count > 0))
+                List<OuraFields> localFields = JsonConvert.DeserializeObject<List<OuraFields>>(OuraExcelSettings.Default.Fields);
+                if (!(localFields is null) && (localFields.Count > 0))
                 {
-                    foreach(OuraFields aField in localFields)
+                    foreach (OuraFields aField in localFields)
                     {
                         OuraFields f = OuraFields.CurrentFields().FirstOrDefault(i => i.FieldName == aField.FieldName);
-                        if( f != null)
+                        if (f != null)
                         {
                             f.CustomLabel = aField.CustomLabel;
                             f.FieldOrder = aField.FieldOrder;
@@ -103,7 +109,7 @@ namespace ExcelOuraVSTOAddIn
 
                 // If the end date was the current date, don't store the enddate
                 // that way next time it will default to that day.
-                if( form.EndDate != DateTime.Today)
+                if (form.EndDate != DateTime.Today)
                     OuraExcelSettings.Default.EndDate = form.EndDate;
 
                 OuraExcelSettings.Default.Save();
@@ -151,7 +157,7 @@ namespace ExcelOuraVSTOAddIn
 
                 // Get the list of fields the user requested in order they were shown.
                 IEnumerable<OuraFields> fieldlist = OuraFields.CurrentFields().Where(c => c.FieldSelected).OrderBy(i => i.FieldOrder);
-                
+
                 // If they want to show the headers, iterate through the fields and if there is a custom label
                 // display it, otherwise display the field name
                 if (form.IncludeHeaders)
@@ -159,7 +165,7 @@ namespace ExcelOuraVSTOAddIn
                     foreach (OuraFields f in fieldlist)
                     {
                         // Only pass a description if the user wants to see the descriptions
-                        if( String.IsNullOrEmpty(f.CustomLabel))
+                        if (String.IsNullOrEmpty(f.CustomLabel))
                             WriteCellToExcelHeader(ref activeCell, f.FieldName, (form.IncludeDescriptions ? f.FieldDescription : null));
                         else
                             WriteCellToExcelHeader(ref activeCell, f.CustomLabel, (form.IncludeDescriptions ? f.FieldDescription : null));
@@ -177,18 +183,63 @@ namespace ExcelOuraVSTOAddIn
                     {
                         if (f.Accessor == OuraFields.AccessorType.Method)
                             WriteCellToExcel(ref activeCell, dynamicExecuteMethod(obj, f.MethodName));
-                        else 
+                        else
                             WriteCellToExcel(ref activeCell, dynamicExecuteProperty(obj, f.MethodName));
                     }
 
                     currentRow++;
                     activeCell = allCells.Item[currentRow, startColumn];                                                                                                                                                                                                               //        currentRow++;                                                                                                                                                                                                                                                                                      //        activeCell = allCells.Item[currentRow, startColumn];
                 }
-            } 
+            }
             else
             {
                 MessageBox.Show("A problem occurred while attempting to retrieve your Oura metrics, add-in closing.");
                 return;
+            }
+        }
+
+
+        private void btnGetOuraHeartRates_Click(object sender, RibbonControlEventArgs e)
+        {
+            DateTime startDate = OuraExcelSettings.Default.StartDate;
+            DateTime endDate = DateTime.Now;
+            //OuraExcelSettings.Default.EndDate;   // Only set if the last time wasn't using the current day
+
+            // Initialize Excel fields
+            Excel.Worksheet activeWorksheet = ((Excel.Worksheet)Globals.ThisAddIn.Application.ActiveSheet);
+            Excel.Range activeCell = Globals.ThisAddIn.Application.ActiveCell;
+            int startColumn = activeCell.Column;
+            int startRow = activeCell.Row;
+            int currentRow = startRow;
+            Excel.Range allCells = Globals.ThisAddIn.Application.Cells;
+
+            // Request data from Oura for the selected date range
+            SleepSummaryResponse sleepResponse = OuraAPIWrapper.PerformSleepSummaryRequest(startDate, endDate);
+
+            if (sleepResponse != null)
+            {
+                foreach (SleepResponse sr in sleepResponse.Sleep)
+                {
+                    WriteCellToExcel(ref activeCell, sr.SummaryDate);
+                    foreach (int i in sr.HR5Min)
+                        WriteCellToExcel(ref activeCell, i);
+
+                    currentRow++;
+                    activeCell = allCells.Item[currentRow, startColumn];                                                                                                                                                                                                               //        currentRow++;                                                                                                                                                                                                                                                                                      
+                }
+            }
+        }
+        private void btnConfigureOuraAPIKey_Click(object sender, RibbonControlEventArgs e)
+        {
+            ConfigureOuraToken form = new ConfigureOuraToken();
+            DialogResult result = form.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                // Verify that the Oura API Token has been configured, if not request them to get one and configure it
+                if (!String.IsNullOrEmpty(ConfigurationManager.AppSettings["OuraAPIKey"]))
+                {
+                    btnGetOuraData.Enabled = true;
+                }
             }
         }
 
@@ -200,8 +251,8 @@ namespace ExcelOuraVSTOAddIn
         /// <param name="value">Value to insert</param>
         private void WriteCellToExcel(ref Excel.Range currentCell, object value)
         {
-                currentCell.Value = value;
-                currentCell = currentCell.Next;
+            currentCell.Value = value;
+            currentCell = currentCell.Next;
         }
 
         private void WriteCellToExcelHeader(ref Excel.Range currentCell, object value, string description)

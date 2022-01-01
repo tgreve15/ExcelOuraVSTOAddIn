@@ -29,7 +29,6 @@ namespace ExcelOuraVSTOAddIn
         /// </summary>
         private void InitializeComponent()
         {
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblFieldName = new System.Windows.Forms.Label();
             this.txtFieldName = new System.Windows.Forms.TextBox();
             this.txtCustomLabel = new System.Windows.Forms.TextBox();
@@ -40,22 +39,14 @@ namespace ExcelOuraVSTOAddIn
             this.label2 = new System.Windows.Forms.Label();
             this.txtSection = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::ExcelOuraVSTOAddIn.Properties.Resources.OuraIcon;
-            this.pictureBox1.Location = new System.Drawing.Point(23, 26);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(36, 44);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
             // 
             // lblFieldName
             // 
             this.lblFieldName.AutoSize = true;
-            this.lblFieldName.Location = new System.Drawing.Point(20, 84);
+            this.lblFieldName.Location = new System.Drawing.Point(20, 94);
             this.lblFieldName.Name = "lblFieldName";
             this.lblFieldName.Size = new System.Drawing.Size(60, 13);
             this.lblFieldName.TabIndex = 1;
@@ -63,7 +54,7 @@ namespace ExcelOuraVSTOAddIn
             // 
             // txtFieldName
             // 
-            this.txtFieldName.Location = new System.Drawing.Point(96, 81);
+            this.txtFieldName.Location = new System.Drawing.Point(96, 91);
             this.txtFieldName.Name = "txtFieldName";
             this.txtFieldName.ReadOnly = true;
             this.txtFieldName.Size = new System.Drawing.Size(220, 20);
@@ -72,7 +63,7 @@ namespace ExcelOuraVSTOAddIn
             // 
             // txtCustomLabel
             // 
-            this.txtCustomLabel.Location = new System.Drawing.Point(96, 133);
+            this.txtCustomLabel.Location = new System.Drawing.Point(96, 143);
             this.txtCustomLabel.MaxLength = 60;
             this.txtCustomLabel.Name = "txtCustomLabel";
             this.txtCustomLabel.Size = new System.Drawing.Size(220, 20);
@@ -81,7 +72,7 @@ namespace ExcelOuraVSTOAddIn
             // lblCustomLabel
             // 
             this.lblCustomLabel.AutoSize = true;
-            this.lblCustomLabel.Location = new System.Drawing.Point(20, 136);
+            this.lblCustomLabel.Location = new System.Drawing.Point(20, 146);
             this.lblCustomLabel.Name = "lblCustomLabel";
             this.lblCustomLabel.Size = new System.Drawing.Size(73, 13);
             this.lblCustomLabel.TabIndex = 3;
@@ -91,7 +82,7 @@ namespace ExcelOuraVSTOAddIn
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(246, 167);
+            this.btnCancel.Location = new System.Drawing.Point(246, 184);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 7;
@@ -102,7 +93,7 @@ namespace ExcelOuraVSTOAddIn
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOk.Location = new System.Drawing.Point(166, 167);
+            this.btnOk.Location = new System.Drawing.Point(166, 184);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 6;
@@ -113,16 +104,17 @@ namespace ExcelOuraVSTOAddIn
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(93, 26);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(189, 13);
+            this.label1.Size = new System.Drawing.Size(229, 13);
             this.label1.TabIndex = 8;
             this.label1.Text = "Select the name you prefer for the field";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(93, 40);
+            this.label2.Location = new System.Drawing.Point(93, 43);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(222, 13);
             this.label2.TabIndex = 9;
@@ -130,7 +122,7 @@ namespace ExcelOuraVSTOAddIn
             // 
             // txtSection
             // 
-            this.txtSection.Location = new System.Drawing.Point(96, 107);
+            this.txtSection.Location = new System.Drawing.Point(96, 117);
             this.txtSection.Name = "txtSection";
             this.txtSection.ReadOnly = true;
             this.txtSection.Size = new System.Drawing.Size(220, 20);
@@ -139,11 +131,20 @@ namespace ExcelOuraVSTOAddIn
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(20, 110);
+            this.label3.Location = new System.Drawing.Point(20, 120);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(43, 13);
             this.label3.TabIndex = 10;
             this.label3.Text = "Section";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::ExcelOuraVSTOAddIn.Properties.Resources.OuraDarkSolid;
+            this.pictureBox1.Location = new System.Drawing.Point(23, 26);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(57, 49);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // ChangeLabelForm
             // 
@@ -151,7 +152,7 @@ namespace ExcelOuraVSTOAddIn
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(333, 202);
+            this.ClientSize = new System.Drawing.Size(333, 219);
             this.ControlBox = false;
             this.Controls.Add(this.txtSection);
             this.Controls.Add(this.label3);
