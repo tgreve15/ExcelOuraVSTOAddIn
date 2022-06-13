@@ -15,3 +15,5 @@ what time frame (by default a week, but you can go for years), and if you want h
 NOTE 2: Just in case you need it, it appears the "live" configuration file for the add-in is located under
 C:\Users\<profile name>\AppData\Local\Microsoft_Corporation
 in a folder with the name starting "ExcelOuraVSTOAddIn"
+
+The latest installable version is available under the "_Releases" folder and here - https://github.com/tgreve15/ExcelOuraVSTOAddIn/blob/f2a6c4eb41db4dec15efaf00f71829dfe64479bb/_Releases/ExcelOuraVSTOAddIn_1_0_0_8.zip
