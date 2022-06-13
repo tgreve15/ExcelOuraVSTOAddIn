@@ -107,6 +107,11 @@ namespace OuraAPIInterface
         public int? ScoreTemperature { get; set; }
         public int? ReadinessRestModeState { get; set; }
 
+        public OuraCombinedObject(string summaryDate)
+        {
+            SummaryDate = summaryDate;
+        }
+
         public String BedtimeStartFormatLocal()
         {
             // TG: I tried converting to a DateTime object, which will work for most,
@@ -174,7 +179,7 @@ namespace OuraAPIInterface
         {
             if (sr != null)
             {
-                this.SummaryDate = sr.SummaryDate;
+                //this.SummaryDate = sr.SummaryDate;
                 this.SleepPeriodId = sr.PeriodId;
                 this.IsLongest = sr.IsLongest;
                 this.SleepTimezone = sr.Timezone;
@@ -215,8 +220,8 @@ namespace OuraAPIInterface
             }
             if (rr != null)
             {
-                if (String.IsNullOrEmpty(this.SummaryDate))
-                    this.SummaryDate = rr.SummaryDate;
+                //if (String.IsNullOrEmpty(this.SummaryDate))
+                //    this.SummaryDate = rr.SummaryDate;
                 this.ReadinessPeriodId = rr.PeriodId;
                 this.ReadinessScore = rr.Score;
                 this.ScoreActivityBalance = rr.ScoreActivityBalance;
@@ -231,8 +236,8 @@ namespace OuraAPIInterface
             }
             if (ar != null)
             {
-                if (String.IsNullOrEmpty(this.SummaryDate))
-                    this.SummaryDate = ar.SummaryDate;
+                //if (String.IsNullOrEmpty(this.SummaryDate))
+                //    this.SummaryDate = ar.SummaryDate;
                 this.ActivityTimezone = ar.Timezone;
                 this.DayStart = ar.DayStart;
                 this.DayEnd = ar.DayEnd;

@@ -137,22 +137,37 @@ namespace ExcelOuraVSTOAddIn
                 // Every day will have some amount of activity information, even if just woke up,
                 // but there may not be sleep and readiness data. As such there will likely be a day
                 // with only activity data.
-                for (int i = 0; i < activityResponse.Activity.Length; i++)
+
+                // The OURA service now returns all data between the requested dates, but if data in the middle is missing
+                // potentially due to the ring running out of charge or not being worn for a few days this can
+                // relate to days with nothing, and some with only some activity data.
+                // Ensure we always get the right data for the right days and return an empty object for a date
+                // if nothing for that date.
+                DateTime loopDate = form.StartDate;
+                DateTime loopEndDate = form.EndDate;
+                while (loopDate <= loopEndDate)
                 {
-                    // Arrays (i) are '0' based, so check if the count == i
-                    SleepResponse sleep = (i == sleepResponse.Sleep.Count() ? null : sleepResponse.Sleep[i]);
-                    ActivityResponse activity = (i == activityResponse.Activity.Count() ? null : activityResponse.Activity[i]);
-                    ReadinessResponse readiness = (i == readinessResponse.Readiness.Count() ? null : readinessResponse.Readiness[i]);
+                    string loopDateString = loopDate.ToString("yyyy-MM-dd");
 
-                    // Hopefully removing this check won't cause issues as the last item in the activity array will have no sleep
-                    // or readiness result, and with this check it would be ignored.
+                    SleepResponse sleep = null;
+                    if (sleepResponse != null && sleepResponse.Sleep != null)
+                        sleep = sleepResponse.Sleep.FirstOrDefault(s => s.SummaryDate == loopDateString);
 
-                    //if (sleep.SummaryDate == activity.SummaryDate && sleep.SummaryDate == readiness.SummaryDate)
-                    //{
-                    OuraCombinedObject oObj = new OuraCombinedObject();
+                    ActivityResponse activity = null;
+                    if (activityResponse != null && activityResponse.Activity != null)
+                        activity = activityResponse.Activity.FirstOrDefault(s => s.SummaryDate == loopDateString);
+
+                    ReadinessResponse readiness = null;
+                    if (readinessResponse != null && readinessResponse.Readiness != null)
+                        readiness = readinessResponse.Readiness.FirstOrDefault(s => s.SummaryDate == loopDateString);
+
+                    //Create a combined object with all facets we received
+                    OuraCombinedObject oObj = new OuraCombinedObject(loopDateString);
                     oObj.UpdateFrom(sleep, readiness, activity);
                     ouraObjects.Add(oObj);
-                    //}
+
+                    // add one day to the counter
+                    loopDate = loopDate.AddDays(1);
                 }
 
                 // Get the list of fields the user requested in order they were shown.
