@@ -12,9 +12,6 @@ this add-in is left configured for Personal Access Token use.
 This add-In will allow you to select which fields of information you want to download and in what order, for 
 what time frame (by default a week, but you can go for years), and if you want headers to be included or not. 
 
-NOTE: If you make a request for a date range that has one or more days that have not data in the Oura Cloud,
-it returns data up to that day but nothing after. As such, you may find you get less data than you expect.
-
 NOTE 2: Just in case you need it, it appears the "live" configuration file for the add-in is located under
 C:\Users\<profile name>\AppData\Local\Microsoft_Corporation
 in a folder with the name starting "ExcelOuraVSTOAddIn"
