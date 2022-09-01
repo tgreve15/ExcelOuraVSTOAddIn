@@ -23,6 +23,7 @@ The latest installable version is available under the "_Releases" folder and her
 
 ## Configuration Form
 Select the date range, fields and other information to include in Excel from your Oura dashboard. This is only available once your Oura Personal Access Token is configured below.
+
 ![Oura Configuration Form](/_images/ExcelOuraConfigurationForm.jpg)
 
 ## Configure Oura Token
