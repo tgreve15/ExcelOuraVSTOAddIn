@@ -1,5 +1,6 @@
 # ExcelOuraVSTOAddIn
-An Excel VSTO Add-In that will retrieve your Oura ring data from the Oura Cloud into your Excel document.
+An Excel VSTO Add-In that will retrieve your Oura ring data from the Oura Cloud into your Excel document. 
+Obviously you require "Excel" to be installed on your computer for this to be used. 
 Written in C# using Visual Studio Community 2019 edition. 
 To use this you will have to go into your Oura Dashboard (https://cloud.ouraring.com/dashboard) and 
 select "Oura Developer" (https://cloud.ouraring.com/personal-access-tokens) from there, under "Personal 
@@ -17,6 +18,7 @@ C:\Users\<profile name>\AppData\Local\Microsoft_Corporation
 in a folder with the name starting "ExcelOuraVSTOAddIn"
 
 The latest installable version is available under the "_Releases" folder and here - https://github.com/tgreve15/ExcelOuraVSTOAddIn/blob/f2a6c4eb41db4dec15efaf00f71829dfe64479bb/_Releases/ExcelOuraVSTOAddIn_1_0_0_8.zip
+Either right click here and choose "Save As" to your computer, or choose "Download" from bottom right when you click on the link. Once downloaded, open the file and run the "setup.exe" file to install the add-in.
 
 ## Excel Command Bar
 ![Oura Command Bar](/_images/ExcelOuraTabBarCommands.jpg)
