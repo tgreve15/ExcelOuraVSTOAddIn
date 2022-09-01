@@ -22,8 +22,9 @@ The latest installable version is available under the "_Releases" folder and her
 ![Oura Command Bar](/_images/ExcelOuraTabBarCommands.jpg)
 
 ## Configuration Form
-Select the date range, fields and other information to include in Excel from your Oura dashboard
+Select the date range, fields and other information to include in Excel from your Oura dashboard. This is only available once your Oura Personal Access Token is configured below.
 ![Oura Configuration Form](/_images/ExcelOuraConfigurationForm.jpg)
 
 ## Configure Oura Token
+To access your Oura data, you need to create a "Personal Access Token" within the Oura Dashboard and enter that on this form in the Add-In. This is only stored locally and used each time a request is made to get data. "Test Token" will return your profile information configured in Oura. 
 ![Oura Token Configuration](_images/ExcelOuraTokenConfiguration.jpg)
