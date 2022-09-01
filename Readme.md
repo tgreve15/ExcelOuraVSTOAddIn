@@ -17,3 +17,13 @@ C:\Users\<profile name>\AppData\Local\Microsoft_Corporation
 in a folder with the name starting "ExcelOuraVSTOAddIn"
 
 The latest installable version is available under the "_Releases" folder and here - https://github.com/tgreve15/ExcelOuraVSTOAddIn/blob/f2a6c4eb41db4dec15efaf00f71829dfe64479bb/_Releases/ExcelOuraVSTOAddIn_1_0_0_8.zip
+
+## Excel Command Bar
+![Oura Command Bar](/_images/ExcelOuraTabBarCommands.jpg)
+
+## Configuration Form
+Select the date range, fields and other information to include in Excel from your Oura dashboard
+![Oura Configuration Form](/_images/ExcelOuraConfigurationForm.jpg)
+
+## Configure Oura Token
+![Oura Token Configuration](_images/ExcelOuraTokenConfiguration.jpg)
