@@ -66,33 +66,33 @@ namespace OuraAPITestLine
 
             Console.WriteLine("Finished");
 
-            List<OuraCombinedObject> ouraObjects = new List<OuraCombinedObject>();
-            if (activityResponse != null && readinessResponse != null && sleepResponse != null)
-            {
-                for (int i = 0; i < sleepResponse.Sleep.Length; i++)
-                {
-                    SleepResponse sleep = sleepResponse.Sleep[i];
-                    ActivityResponse activity = activityResponse.Activity[i];
-                    ReadinessResponse readiness = readinessResponse.Readiness[i];
-                    if (sleep.SummaryDate == activity.SummaryDate && sleep.SummaryDate == readiness.SummaryDate)
-                    {
-                        OuraCombinedObject oObj = new OuraCombinedObject();
-                        oObj.UpdateFrom(sleep, readiness, activity);
-                        ouraObjects.Add(oObj);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Failed");
-                    }
-                }
+            //List<OuraCombinedObject> ouraObjects = new List<OuraCombinedObject>();
+            //if (activityResponse != null && readinessResponse != null && sleepResponse != null)
+            //{
+            //    for (int i = 0; i < sleepResponse.Sleep.Length; i++)
+            //    {
+            //        SleepResponse sleep = sleepResponse.Sleep[i];
+            //        ActivityResponse activity = activityResponse.Activity[i];
+            //        ReadinessResponse readiness = readinessResponse.Readiness[i];
+            //        if (sleep.SummaryDate == activity.SummaryDate && sleep.SummaryDate == readiness.SummaryDate)
+            //        {
+            //            OuraCombinedObject oObj = new OuraCombinedObject();
+            //            oObj.UpdateFrom(sleep, readiness, activity);
+            //            ouraObjects.Add(oObj);
+            //        }
+            //        else
+            //        {
+            //            Console.WriteLine("Failed");
+            //        }
+            //    }
 
-                foreach (OuraCombinedObject obj in ouraObjects)
-                {
-                    Console.WriteLine("Dynamic Results 1: {0}", dynamicExecuteMethod(obj, "BedtimeStartFormatLocal", "DateTime"));
-                    Console.WriteLine("Dynamic Results 2: {0}", dynamicExecuteProperty(obj, "SummaryDate", "DateTime"));
+            //    foreach (OuraCombinedObject obj in ouraObjects)
+            //    {
+            //        Console.WriteLine("Dynamic Results 1: {0}", dynamicExecuteMethod(obj, "BedtimeStartFormatLocal", "DateTime"));
+            //        Console.WriteLine("Dynamic Results 2: {0}", dynamicExecuteProperty(obj, "SummaryDate", "DateTime"));
 
-                }
-            }
+            //    }
+            //}
 
             //localFields.Add(new OuraFields("Bedtime End (Default)", "BedtimeEnd", "Sleep", "BedtimeEnd"));
             //localFields.Add(new OuraFields("Bedtime Start (Local)", "BedtimeStart", "Sleep", "BedtimeStartFormatLocal()"));

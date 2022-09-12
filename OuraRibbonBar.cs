@@ -123,53 +123,11 @@ namespace ExcelOuraVSTOAddIn
             int currentRow = startRow;
             Excel.Range allCells = Globals.ThisAddIn.Application.Cells;
 
-            // Request data from Oura for the selected date range
-            SleepSummaryResponse sleepResponse = OuraAPIWrapper.PerformSleepSummaryRequest(form.StartDate, form.EndDate);
-            ActivitySummaryResponse activityResponse = OuraAPIWrapper.PerformActivitySummaryRequest(form.StartDate, form.EndDate);
-            ReadinessSummaryResponse readinessResponse = OuraAPIWrapper.PerformReadinessSummaryRequest(form.StartDate, form.EndDate);
+            // Retrieve all Oura Data for a specific date range
+            List<OuraCombinedObject> ouraObjects = OuraAPIWrapper.GetAllOuraDataForDateRange(form.StartDate, form.EndDate);
 
-            // Consolidate all the Oura Data into a single object so we can expose data across what is collected side by side
-            List<OuraCombinedObject> ouraObjects = new List<OuraCombinedObject>();
-
-            // If one or more of the service requests didn't work, just quit as there is something bigger going wrong
-            if (activityResponse != null && readinessResponse != null && sleepResponse != null)
+            if( ouraObjects.Count > 0)
             {
-                // Every day will have some amount of activity information, even if just woke up,
-                // but there may not be sleep and readiness data. As such there will likely be a day
-                // with only activity data.
-
-                // The OURA service now returns all data between the requested dates, but if data in the middle is missing
-                // potentially due to the ring running out of charge or not being worn for a few days this can
-                // relate to days with nothing, and some with only some activity data.
-                // Ensure we always get the right data for the right days and return an empty object for a date
-                // if nothing for that date.
-                DateTime loopDate = form.StartDate;
-                DateTime loopEndDate = form.EndDate;
-                while (loopDate <= loopEndDate)
-                {
-                    string loopDateString = loopDate.ToString("yyyy-MM-dd");
-
-                    SleepResponse sleep = null;
-                    if (sleepResponse != null && sleepResponse.Sleep != null)
-                        sleep = sleepResponse.Sleep.FirstOrDefault(s => s.SummaryDate == loopDateString);
-
-                    ActivityResponse activity = null;
-                    if (activityResponse != null && activityResponse.Activity != null)
-                        activity = activityResponse.Activity.FirstOrDefault(s => s.SummaryDate == loopDateString);
-
-                    ReadinessResponse readiness = null;
-                    if (readinessResponse != null && readinessResponse.Readiness != null)
-                        readiness = readinessResponse.Readiness.FirstOrDefault(s => s.SummaryDate == loopDateString);
-
-                    //Create a combined object with all facets we received
-                    OuraCombinedObject oObj = new OuraCombinedObject(loopDateString);
-                    oObj.UpdateFrom(sleep, readiness, activity);
-                    ouraObjects.Add(oObj);
-
-                    // add one day to the counter
-                    loopDate = loopDate.AddDays(1);
-                }
-
                 // Get the list of fields the user requested in order they were shown.
                 IEnumerable<OuraFields> fieldlist = OuraFields.CurrentFields().Where(c => c.FieldSelected).OrderBy(i => i.FieldOrder);
 

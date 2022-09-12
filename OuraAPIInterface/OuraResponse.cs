@@ -20,32 +20,32 @@ namespace OuraAPIInterface
     {
         public string SummaryDate { get; set; }
         // Sleep Variables
-        public int? SleepPeriodId { get; set; }
-        public int? IsLongest { get; set; }
-        public int? SleepTimezone { get; set; }
+        public double? SleepPeriodId { get; set; }
+        public double? IsLongest { get; set; }
+        public double? SleepTimezone { get; set; }
         public String BedtimeStart { get; set; }
         public String BedtimeEnd { get; set; }
-        public int? SleepScore { get; set; }
-        public int? ScoreTotal { get; set; }
-        public int? ScoreDisturbances { get; set; }
-        public int? ScoreEfficiency { get; set; }
-        public int? ScoreLatency { get; set; }
-        public int? ScoreREM { get; set; }
-        public int? ScoreDeep { get; set; }
-        public int? ScoreAlignment { get; set; }
-        public int? SleepTotal { get; set; }
-        public int? Duration { get; set; }
-        public int? Awake { get; set; }
-        public int? Light { get; set; }
-        public int? REM { get; set; }
-        public int? Deep { get; set; }
-        public int? OnsetLatency { get; set; }
-        public int? Restless { get; set; }
-        public int? Efficiency { get; set; }
-        public int? MidpointTime { get; set; }
+        public double? SleepScore { get; set; }
+        public double? ScoreTotal { get; set; }
+        public double? ScoreDisturbances { get; set; }
+        public double? ScoreEfficiency { get; set; }
+        public double? ScoreLatency { get; set; }
+        public double? ScoreREM { get; set; }
+        public double? ScoreDeep { get; set; }
+        public double? ScoreAlignment { get; set; }
+        public double? SleepTotal { get; set; }
+        public double? Duration { get; set; }
+        public double? Awake { get; set; }
+        public double? Light { get; set; }
+        public double? REM { get; set; }
+        public double? Deep { get; set; }
+        public double? OnsetLatency { get; set; }
+        public double? Restless { get; set; }
+        public double? Efficiency { get; set; }
+        public double? MidpointTime { get; set; }
         public double? HRLowest { get; set; }
         public double? HRAverage { get; set; }
-        public int? RMSSD { get; set; }
+        public double? RMSSD { get; set; }
         public double? BreathAverage { get; set; }
         public double? TemperatureDelta { get; set; }
         public string Hypnogram5Min { get; set; }
@@ -53,59 +53,65 @@ namespace OuraAPIInterface
         public List<int> RMSSD5Min { get; set; }
         public double? TemperatureDeviation { get; set; }
         public double? TemperatureTrendDeviation { get; set; }
-        public int? BedtimeStartDelta { get; set; }
-        public int? BedtimeEndDelta { get; set; }
-        public int? MidpointAtDelta { get; set; }
+        public double? BedtimeStartDelta { get; set; }
+        public double? BedtimeEndDelta { get; set; }
+        public double? MidpointAtDelta { get; set; }
+        public String Timestamp { get; set; }
+        public String Type { get; set; }
+        public double? AverageBreathVariation { get; set; }
+        public double? GotUpCount { get; set; }
+        public double? WakeUpCount { get; set; }
+        public double? LowestHeartRateTimeOffset { get; set; }
 
         // Activity Variables
-        public int? ActivityTimezone { get; set; }
+        public double? ActivityTimezone { get; set; }
         public String DayStart { get; set; }
         public String DayEnd { get; set; }
-        public int? CalActive { get; set; }
-        public int? CalTotal { get; set; }
+        public double? CalActive { get; set; }
+        public double? CalTotal { get; set; }
         public string Class5min { get; set; }
-        public int? Steps { get; set; }
-        public int? DailyMovement { get; set; }
-        public int? NonWear { get; set; }
-        public int? Rest { get; set; }
-        public int? Inactive { get; set; }
-        public int? Low { get; set; }
-        public int? Medium { get; set; }
-        public int? High { get; set; }
-        public int? InactivityAlerts { get; set; }
+        public double? Steps { get; set; }
+        public double? DailyMovement { get; set; }
+        public double? NonWear { get; set; }
+        public double? Rest { get; set; }
+        public double? Inactive { get; set; }
+        public double? Low { get; set; }
+        public double? Medium { get; set; }
+        public double? High { get; set; }
+        public double? InactivityAlerts { get; set; }
         public double? AverageMet { get; set; }
         public List<double> Met1min { get; set; }
-        public int? MetMinInactive { get; set; }
-        public int? MetMinLow { get; set; }
-        public int? MetMinMedium { get; set; }
-        public int? MetMinHigh { get; set; }
-        public int? TargetCalories { get; set; }
+        public double? MetMinInactive { get; set; }
+        public double? MetMinLow { get; set; }
+        public double? MetMinMedium { get; set; }
+        public double? MetMinHigh { get; set; }
+        public double? TargetCalories { get; set; }
         public double? TargetKM { get; set; }
         public double? TargetMiles { get; set; }
         public double? ToTargetKM { get; set; }
         public double? ToTargetMiles { get; set; }
-        public int? ActivityScore { get; set; }
-        public int? ScoreMeetDailyTargets { get; set; }
-        public int? ScoreMoveEveryHour { get; set; }
-        public int? ScoreRecoveryTime { get; set; }
-        public int? ScoreStayActive { get; set; }
-        public int? ScoreTrainingFrequency { get; set; }
-        public int? ScoreTrainingVolume { get; set; }
-        public int? ActivityRestModeState { get; set; }
-        public int? ActivityTotal { get; set; }
+        public double? ActivityScore { get; set; }
+        public double? ScoreMeetDailyTargets { get; set; }
+        public double? ScoreMoveEveryHour { get; set; }
+        public double? ScoreRecoveryTime { get; set; }
+        public double? ScoreStayActive { get; set; }
+        public double? ScoreTrainingFrequency { get; set; }
+        public double? ScoreTrainingVolume { get; set; }
+        public double? ActivityRestModeState { get; set; }
+        public double? ActivityTotal { get; set; }
 
         // Readiness Variables
-        public int? ReadinessPeriodId { get; set; }
-        public int? ReadinessScore { get; set; }
-        public int? ScoreActivityBalance { get; set; }
-        public int? ScoreHRVBalance { get; set; }
-        public int? ScorePreviousDay { get; set; }
-        public int? ScorePreviousNight { get; set; }
-        public int? ScoreRecoveryIndex { get; set; }
-        public int? ScoreRestingHR { get; set; }
-        public int? ScoreSleepBalance { get; set; }
-        public int? ScoreTemperature { get; set; }
-        public int? ReadinessRestModeState { get; set; }
+        public double? ReadinessPeriodId { get; set; }
+        public double? ReadinessScore { get; set; }
+        public double? ScoreActivityBalance { get; set; }
+        public double? ScoreHRVBalance { get; set; }
+        public double? ScorePreviousDay { get; set; }
+        public double? ScorePreviousNight { get; set; }
+        public double? ScoreRecoveryIndex { get; set; }
+        public double? ScoreRestingHR { get; set; }
+        public double? ScoreSleepBalance { get; set; }
+        public double? ScoreTemperature { get; set; }
+        public double? ReadinessRestModeState { get; set; }
 
         public OuraCombinedObject(string summaryDate)
         {
@@ -139,6 +145,20 @@ namespace OuraAPIInterface
 
             localDate = localDate.Substring(0, 19);
             return localDate.Replace("T", " ");
+        }
+
+        /// <summary>
+        /// TimeStamp - only appears to have the date, no time component
+        /// even though there is space in the return for time and potentially timezone
+        /// </summary>
+        /// <returns>Date as a string (yyyy-MM-dd)</returns>
+        public String TimestampFormatLocal()
+        {
+            String localDate = Timestamp;
+            if (String.IsNullOrEmpty(localDate))
+                return "";
+
+            return localDate.Substring(0, 10);
         }
 
         /// <summary>
@@ -217,6 +237,13 @@ namespace OuraAPIInterface
                 this.BedtimeStartDelta = sr.BedtimeStartDelta;
                 this.BedtimeEndDelta = sr.BedtimeStartDelta;
                 this.MidpointAtDelta = sr.MidpointAtDelta;
+
+                this.Timestamp = sr.Timestamp;
+                this.Type = sr.Type;
+                this.AverageBreathVariation = sr.AverageBreathVariation;
+                this.GotUpCount = sr.GotUpCount;
+                this.WakeUpCount = sr.WakeUpCount;
+                this.LowestHeartRateTimeOffset = sr.LowestHeartRateTimeOffset;
             }
             if (rr != null)
             {
@@ -314,11 +341,11 @@ namespace OuraAPIInterface
         [DataMember(Name = "summary_date")]
         public string SummaryDate { get; set; }
         [DataMember(Name = "period_id")]
-        public int? PeriodId { get; set; }
+        public double? PeriodId { get; set; }
         [DataMember(Name = "is_longest")]
-        public int? IsLongest { get; set; }
+        public double? IsLongest { get; set; }
         [DataMember(Name = "timezone")]
-        public int? Timezone { get; set; }
+        public double? Timezone { get; set; }
         [DataMember(Name = "bedtime_start")]
         public String BedtimeStart { get; set; }
         [DataMember(Name = "bedtime_end")]
@@ -326,25 +353,25 @@ namespace OuraAPIInterface
         [DataMember(Name = "breath_average")]
         public double? BreathAverage { get; set; }
         [DataMember(Name = "duration")]
-        public int? Duration { get; set; }
+        public double? Duration { get; set; }
         [DataMember(Name = "total")]
-        public int? Total { get; set; }
+        public double? Total { get; set; }
         [DataMember(Name = "awake")]
-        public int? Awake { get; set; }
+        public double? Awake { get; set; }
         [DataMember(Name = "rem")]
-        public int? REM { get; set; }
+        public double? REM { get; set; }
         [DataMember(Name = "deep")]
-        public int? Deep { get; set; }
+        public double? Deep { get; set; }
         [DataMember(Name = "light")]
-        public int? Light { get; set; }
+        public double? Light { get; set; }
         [DataMember(Name = "midpoint_time")]
-        public int? MidpointTime { get; set; }
+        public double? MidpointTime { get; set; }
         [DataMember(Name = "efficiency")]
-        public int? Efficiency { get; set; }
+        public double? Efficiency { get; set; }
         [DataMember(Name = "restless")]
-        public int? Restless { get; set; }
+        public double? Restless { get; set; }
         [DataMember(Name = "onset_latency")]
-        public int? OnsetLatency { get; set; }
+        public double? OnsetLatency { get; set; }
         [DataMember(Name = "hr_5min")]
         public List<int> HR5Min { get; set; }
         [DataMember(Name = "hr_average")]
@@ -354,37 +381,53 @@ namespace OuraAPIInterface
         [DataMember(Name = "hypnogram_5min")]
         public string Hypnogram5Min { get; set; }
         [DataMember(Name = "rmssd")]
-        public int? RMSSD { get; set; }
+        public double? RMSSD { get; set; }
         [DataMember(Name = "rmssd_5min")]
         public List<int> RMSSD5Min { get; set; }
         [DataMember(Name = "score")]
-        public int? Score { get; set; }
+        public double? Score { get; set; }
         [DataMember(Name = "score_total")]
-        public int? ScoreTotal { get; set; }
+        public double? ScoreTotal { get; set; }
         [DataMember(Name = "score_disturbances")]
-        public int? ScoreDisturbances { get; set; }
+        public double? ScoreDisturbances { get; set; }
         [DataMember(Name = "score_efficiency")]
-        public int? ScoreEfficiency { get; set; }
+        public double? ScoreEfficiency { get; set; }
         [DataMember(Name = "score_latency")]
-        public int? ScoreLatency { get; set; }
+        public double? ScoreLatency { get; set; }
         [DataMember(Name = "score_rem")]
-        public int? ScoreREM { get; set; }
+        public double? ScoreREM { get; set; }
         [DataMember(Name = "score_deep")]
-        public int? ScoreDeep { get; set; }
+        public double? ScoreDeep { get; set; }
         [DataMember(Name = "score_alignment")]
-        public int? ScoreAlignment { get; set; }
+        public double? ScoreAlignment { get; set; }
         [DataMember(Name = "temperature_deviation")]
         public double? TemperatureDeviation { get; set; }
         [DataMember(Name = "temperature_trend_deviation")]
         public double? TemperatureTrendDeviation { get; set; }
         [DataMember(Name = "bedtime_start_delta")]
-        public int? BedtimeStartDelta { get; set; }
+        public double? BedtimeStartDelta { get; set; }
         [DataMember(Name = "bedtime_end_delta")]
-        public int? BedtimeEndDelta { get; set; }
+        public double? BedtimeEndDelta { get; set; }
         [DataMember(Name = "midpoint_at_delta")]
-        public int? MidpointAtDelta { get; set; }
+        public double? MidpointAtDelta { get; set; }
         [DataMember(Name = "temperature_delta")]
         public double? TemperatureDelta { get; set; }
+
+        /// <summary>
+        /// Following fields are new and doesn't appear in the list
+        /// </summary>
+        [DataMember(Name = "timestamp")]
+        public String Timestamp { get; set; }
+        [DataMember(Name = "type")]
+        public String Type { get; set; }
+        [DataMember(Name = "average_breath_variation")]
+        public double? AverageBreathVariation { get; set; }
+        [DataMember(Name = "got_up_count")]
+        public double? GotUpCount { get; set; }
+        [DataMember(Name = "wake_up_count")]
+        public double? WakeUpCount { get; set; }
+        [DataMember(Name = "lowest_heart_rate_time_offset")]
+        public double? LowestHeartRateTimeOffset { get; set; }
 
         public String BedtimeStartFormatLocal()
         {
@@ -414,6 +457,20 @@ namespace OuraAPIInterface
             localDate = localDate.Substring(0, 19);
             return localDate.Replace("T", " ");
         }
+
+        /// <summary>
+        /// TimeStamp - only appears to have the date, no time component
+        /// even though there is space in the return for time and potentially timezone
+        /// </summary>
+        /// <returns>Date as a string (yyyy-MM-dd)</returns>
+        public String TimestampFormatLocal()
+        {
+            String localDate = Timestamp;
+            if (String.IsNullOrEmpty(localDate))
+                return "";
+
+            return localDate.Substring(0, 10);
+        }
     }
 
     /// <summary>
@@ -425,49 +482,49 @@ namespace OuraAPIInterface
         [DataMember(Name = "summary_date")]
         public string SummaryDate { get; set; }
         [DataMember(Name = "timezone")]
-        public int? Timezone { get; set; }
+        public double? Timezone { get; set; }
         [DataMember(Name = "day_start")]
         public String DayStart { get; set; }
         [DataMember(Name = "day_end")]
         public String DayEnd { get; set; }
         [DataMember(Name = "cal_active")]
-        public int? CalActive { get; set; }
+        public double? CalActive { get; set; }
         [DataMember(Name = "cal_total")]
-        public int? CalTotal { get; set; }
+        public double? CalTotal { get; set; }
         [DataMember(Name = "class_5min")]
         public string Class5min { get; set; }
         [DataMember(Name = "steps")]
-        public int? Steps { get; set; }
+        public double? Steps { get; set; }
         [DataMember(Name = "daily_movement")]
-        public int? DailyMovement { get; set; }
+        public double? DailyMovement { get; set; }
         [DataMember(Name = "non_wear")]
-        public int? NonWear { get; set; }
+        public double? NonWear { get; set; }
         [DataMember(Name = "rest")]
-        public int? Rest { get; set; }
+        public double? Rest { get; set; }
         [DataMember(Name = "inactive")]
-        public int? Inactive { get; set; }
+        public double? Inactive { get; set; }
         [DataMember(Name = "low")]
-        public int? Low { get; set; }
+        public double? Low { get; set; }
         [DataMember(Name = "medium")]
-        public int? Medium { get; set; }
+        public double? Medium { get; set; }
         [DataMember(Name = "high")]
-        public int? High { get; set; }
+        public double? High { get; set; }
         [DataMember(Name = "inactivity_alerts")]
-        public int? InactivityAlerts { get; set; }
+        public double? InactivityAlerts { get; set; }
         [DataMember(Name = "average_met")]
         public double? AverageMet { get; set; }
         [DataMember(Name = "met_1min")]
         public List<double> Met1min { get; set; }
         [DataMember(Name = "met_min_inactive")]
-        public int? MetMinInactive { get; set; }
+        public double? MetMinInactive { get; set; }
         [DataMember(Name = "met_min_low")]
-        public int? MetMinLow { get; set; }
+        public double? MetMinLow { get; set; }
         [DataMember(Name = "met_min_medium")]
-        public int? MetMinMedium { get; set; }
+        public double? MetMinMedium { get; set; }
         [DataMember(Name = "met_min_high")]
-        public int? MetMinHigh { get; set; }
+        public double? MetMinHigh { get; set; }
         [DataMember(Name = "target_calories")]
-        public int? TargetCalories { get; set; }
+        public double? TargetCalories { get; set; }
         [DataMember(Name = "target_km")]
         public double? TargetKM { get; set; }
         [DataMember(Name = "target_miles")]
@@ -477,23 +534,23 @@ namespace OuraAPIInterface
         [DataMember(Name = "to_target_miles")]
         public double? ToTargetMiles { get; set; }
         [DataMember(Name = "score")]
-        public int? Score { get; set; }
+        public double? Score { get; set; }
         [DataMember(Name = "score_meet_daily_targets")]
-        public int? ScoreMeetDailyTargets { get; set; }
+        public double? ScoreMeetDailyTargets { get; set; }
         [DataMember(Name = "score_move_every_hour")]
-        public int? ScoreMoveEveryHour { get; set; }
+        public double? ScoreMoveEveryHour { get; set; }
         [DataMember(Name = "score_recovery_time")]
-        public int? ScoreRecoveryTime { get; set; }
+        public double? ScoreRecoveryTime { get; set; }
         [DataMember(Name = "score_stay_active")]
-        public int? ScoreStayActive { get; set; }
+        public double? ScoreStayActive { get; set; }
         [DataMember(Name = "score_training_frequency")]
-        public int? ScoreTrainingFrequency { get; set; }
+        public double? ScoreTrainingFrequency { get; set; }
         [DataMember(Name = "score_training_volume")]
-        public int? ScoreTrainingVolume { get; set; }
+        public double? ScoreTrainingVolume { get; set; }
         [DataMember(Name = "rest_mode_state")]
-        public int? RestModeState { get; set; }
+        public double? RestModeState { get; set; }
         [DataMember(Name = "total")]
-        public int? Total { get; set; }
+        public double? Total { get; set; }
 
         /// <summary>
         /// Activity>DayStart Property
@@ -541,27 +598,27 @@ namespace OuraAPIInterface
         [DataMember(Name = "summary_date")]
         public string SummaryDate { get; set; }
         [DataMember(Name = "period_id")]
-        public int? PeriodId { get; set; }
+        public double? PeriodId { get; set; }
         [DataMember(Name = "score")]
-        public int? Score { get; set; }
+        public double? Score { get; set; }
         [DataMember(Name = "score_activity_balance")]
-        public int? ScoreActivityBalance { get; set; }
+        public double? ScoreActivityBalance { get; set; }
         [DataMember(Name = "score_hrv_balance")]
-        public int? ScoreHRVBalance { get; set; }
+        public double? ScoreHRVBalance { get; set; }
         [DataMember(Name = "score_previous_day")]
-        public int? ScorePreviousDay { get; set; }
+        public double? ScorePreviousDay { get; set; }
         [DataMember(Name = "score_previous_night")]
-        public int? ScorePreviousNight { get; set; }
+        public double? ScorePreviousNight { get; set; }
         [DataMember(Name = "score_recovery_index")]
-        public int? ScoreRecoveryIndex { get; set; }
+        public double? ScoreRecoveryIndex { get; set; }
         [DataMember(Name = "score_resting_hr")]
-        public int? ScoreRestingHR { get; set; }
+        public double? ScoreRestingHR { get; set; }
         [DataMember(Name = "score_sleep_balance")]
-        public int? ScoreSleepBalance { get; set; }
+        public double? ScoreSleepBalance { get; set; }
         [DataMember(Name = "score_temperature")]
-        public int? ScoreTemperature { get; set; }
+        public double? ScoreTemperature { get; set; }
         [DataMember(Name = "rest_mode_state")]
-        public int? RestModeState { get; set; }
+        public double? RestModeState { get; set; }
     }
 
     /// <summary>

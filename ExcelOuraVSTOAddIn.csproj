@@ -216,7 +216,6 @@
     <Compile Include="OuraSetupTransferForm.Designer.cs">
       <DependentUpon>OuraSetupTransferForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="OuraFields.cs" />
     <Compile Include="OuraRibbonBar.cs">
       <SubType>Component</SubType>
     </Compile>

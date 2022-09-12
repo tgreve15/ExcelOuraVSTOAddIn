@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 //using System.Configuration;
 
 namespace ExcelOuraVSTOAddIn
@@ -40,7 +41,7 @@ namespace ExcelOuraVSTOAddIn
             localFields.Add(new OuraFields("Sleep Total", "Sleep", "SleepTotal", 17, "Total amount of sleep registered during the sleep period (sleep.total = sleep.rem + sleep.light + sleep.deep)."));
             localFields.Add(new OuraFields("Duration", "Sleep", "Duration", 18, "Total duration of the sleep period (sleep.duration = sleep.bedtime_end - sleep.bedtime_start)."));
             localFields.Add(new OuraFields("Awake Time", "Sleep", "Awake", 19, "Total amount of awake time registered during the sleep period."));
-            localFields.Add(new OuraFields("Light Time", "Sleep", "Light", 20, "Total amount of light (N1 or N2) sleep registered during the sleep period."));
+            localFields.Add(new OuraFields("Light Sleep", "Sleep", "Light", 20, "Total amount of light (N1 or N2) sleep registered during the sleep period."));
             localFields.Add(new OuraFields("REM Sleep", "Sleep", "REM", 21, "Total amount of REM sleep registered during the sleep period."));
             localFields.Add(new OuraFields("Deep Sleep", "Sleep", "Deep", 22, "Total amount of deep (N3) sleep registered during the sleep period."));
             localFields.Add(new OuraFields("Onset Latency", "Sleep", "OnsetLatency", 23, "Detected latency from bedtime_start to the beginning of the first five minutes of persistent sleep."));
@@ -60,7 +61,16 @@ namespace ExcelOuraVSTOAddIn
             localFields.Add(new OuraFields("Bedtime Start Delta", "Sleep", "BedtimeStartDelta", 37));
             localFields.Add(new OuraFields("Bedtime End Delta", "Sleep", "BedtimeEndDelta", 38));
             localFields.Add(new OuraFields("Midpoint At Delta", "Sleep", "MidpointAtDelta", 39));
+            localFields.Add(new OuraFields("Timestamp", "Sleep", "Timestamp", 40));
+            localFields.Add(new OuraFields("Timestamp (Absolute)", "Sleep", "TimestampFormatLocal", 41, true, AccessorType.Method));
 
+            localFields.Add(new OuraFields("Type", "Sleep", "Type", 42, "Possible sleep periods - 'sleep'\'long_sleep'\'late_nap'\'rest'"));
+            localFields.Add(new OuraFields("Average Breath Variation", "Sleep", "AverageBreathVariation", 43));
+            localFields.Add(new OuraFields("Got Up Count", "Sleep", "GotUpCount", 44));
+            localFields.Add(new OuraFields("Wake Up Count", "Sleep", "WakeUpCount", 45));
+            localFields.Add(new OuraFields("Lowest Heart Rate Time Offset", "Sleep", "LowestHeartRateTimeOffset", 46));
+
+            // Activity Fields
             localFields.Add(new OuraFields("Activity Timezone", "Activity", "ActivityTimezone", 50));
             localFields.Add(new OuraFields("Day Start", "Activity", "DayStart", 51, "UTC time when the activity day began. Oura activity day is usually from 4AM to 4AM local time."));
             localFields.Add(new OuraFields("Day End", "Activity", "DayEnd", 52, "UTC time when the activity day ended. Oura activity day is usually from 4AM to 4AM local time."));
