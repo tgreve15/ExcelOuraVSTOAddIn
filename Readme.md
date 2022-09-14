@@ -23,8 +23,7 @@ Either right click here and choose "Save As" to your computer, or click on the l
 ## What's new
 ### [1.0.0.10](https://github.com/tgreve15/ExcelOuraVSTOAddIn/raw/master/_Releases/ExcelOuraVSTOAddIn_1_0_0_10.zip)
   Bug fixes to handle slight change in numeric data being returned; 
-  New data elements exposed that aren't documented in the API (Timestamp, type, Average breath variation, Got up count, Wake up count, Lowest Heart Rate Time Offset)
-  Some slight refactoring in the add-in
+  New data elements exposed that aren't documented in the API (Timestamp, type, Average breath variation, Got up count, Wake up count, Lowest Heart Rate Time Offset); Some slight refactoring in the add-in
 
 ## Excel Command Bar
 ![Oura Command Bar](/_images/ExcelOuraTabBarCommands.jpg)
