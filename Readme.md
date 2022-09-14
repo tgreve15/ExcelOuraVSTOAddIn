@@ -18,7 +18,7 @@ C:\Users\<profile name>\AppData\Local\Microsoft_Corporation
 in a folder with the name starting "ExcelOuraVSTOAddIn"
 
 The latest installable version is available under the "_Releases" folder and here - https://github.com/tgreve15/ExcelOuraVSTOAddIn/raw/master/_Releases/ExcelOuraVSTOAddIn_1_0_0_10.zip
-Either right click here and choose "Save As" to your computer, or choose "Download" from bottom right when you click on the link. Once downloaded, open the file and run the "setup.exe" file to install the add-in.
+Either right click here and choose "Save As" to your computer, or click on the link and open it from your Downloads folder. Once downloaded, open the file and run the "setup.exe" file to install the add-in.
 
 ## Excel Command Bar
 ![Oura Command Bar](/_images/ExcelOuraTabBarCommands.jpg)
