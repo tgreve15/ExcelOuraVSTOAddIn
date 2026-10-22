@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-//using System.Configuration;
+using System.Linq;
 
 namespace ExcelOuraVSTOAddIn
 {
@@ -8,6 +8,9 @@ namespace ExcelOuraVSTOAddIn
     public class OuraFields
     {
         private static List<OuraFields> defaultFields;
+        private static List<OuraFields> defaultTagFields;
+        private static List<OuraFields> defaultWorkoutFields;
+        private static List<OuraFields> defaultSpo2Fields;
 
         /// <summary>
         /// Create a field list of all possible values that can be returned by the primary 
@@ -21,130 +24,190 @@ namespace ExcelOuraVSTOAddIn
         /// </summary>
         private static void SetupDefaultFields()
         {
+            // NOTE (fixed): every MethodName below is verified against the actual public
+            // properties/methods of OuraCombinedObjectV2 (see OuraResponsesV2.cs). The
+            // previous version of this list referenced a stale, pre-V2 API naming scheme
+            // (e.g. "BedtimeStart", "SleepScore", "CalActive", "Steps") that no longer
+            // exists on OuraCombinedObjectV2. Because dynamicExecuteProperty/dynamicExecuteMethod
+            // in OuraRibbonBar.cs silently return the literal string "FAILURE" for any
+            // unresolved member, every Sleep and Activity field except the handful that
+            // happened to still match (the Readiness "rr_*" fields) wrote "FAILURE" into
+            // Excel instead of real data. This rewrite fixes that mapping.
             List<OuraFields> localFields = new List<OuraFields>();
-            localFields.Add(new OuraFields("Summary Date", "Sleep", "SummaryDate" ,1, "Date when the measured period started."));
-            localFields.Add(new OuraFields("Sleep Period Id", "Sleep", "SleepPeriodId", 2, "Index of the sleep period among sleep periods with the same summary_date, where 0 = first sleep period of the day."));
-            localFields.Add(new OuraFields("Is Longest", "Sleep", "IsLongest" ,3 ));
-            localFields.Add(new OuraFields("Sleep Timezone", "Sleep", "SleepTimezone",4, "Timezone offset from UTC as minutes. For example, EEST (Eastern European Summer Time, +3h) is 180. PST (Pacific Standard Time, -8h) is -480. "));
-            localFields.Add(new OuraFields("Bedtime Start", "Sleep", "BedtimeStart",5, "Local time when the sleep period started"));
-            localFields.Add(new OuraFields("Bedtime End", "Sleep", "BedtimeEnd",6, "Local time when the sleep period ended"));
-            localFields.Add(new OuraFields("Bedtime Start (Absolute)", "Sleep", "BedtimeStartFormatLocal",7, true, AccessorType.Method, "Time when the sleep period started, ignoring timezones"));
-            localFields.Add(new OuraFields("Bedtime End (Absolute)", "Sleep", "BedtimeEndFormatLocal",8, true, AccessorType.Method, "Time when the sleep period ended, ignoring timezones"));
-            localFields.Add(new OuraFields("Sleep Score", "Sleep", "SleepScore",9, "Represents overall sleep quality during the sleep period. It is calculated as a weighted average of sleep score contributors that represent one aspect of sleep quality each. "));
-            localFields.Add(new OuraFields("Score Total", "Sleep", "ScoreTotal" ,10, "Represents total sleep time's (see sleep.total) contribution for sleep quality. The value depends on age of the user - the younger, the more sleep is needed for good score. The weight of sleep.score_total in sleep score calculation is 0.35."));
-            localFields.Add(new OuraFields("Score Disturbances", "Sleep", "ScoreDisturbances", 11, "Represents sleep disturbances' contribution for sleep quality. Three separate measurements are used to calculate this contributor value: 1. Wake - up count - the more wake - ups, the lower the score.; 2. Got - up count - the more got - ups, the lower the score.; 3. Restless sleep(sleep.restless) - the more motion detected during sleep, the lower the score."));
-            localFields.Add(new OuraFields("Score Efficiency", "Sleep", "ScoreEfficiency", 12, "Represents sleep efficiency's (see sleep.efficiency) contribution for sleep quality. The higher efficiency, the higher score. The weight of sleep.score_efficiency in sleep score calculation is 0.10."));
-            localFields.Add(new OuraFields("Score Latency", "Sleep", "ScoreLatency", 13, "Represents sleep onset latency's (see sleep.onset_latency) contribution for sleep quality. A latency of about 15 minutes gives best score. Latency longer than that many indicate problems falling asleep, whereas a very short latency may be a sign of sleep debt. The weight of sleep.score_latency in sleep score calculation is 0.10."));
-            localFields.Add(new OuraFields("Score REM", "Sleep", "ScoreREM", 14, "Represents REM sleep time's (see sleep.rem) contribution for sleep quality. The value depends on age of the user - the younger, the more sleep REM is needed for good score. The weight of sleep.score_rem in sleep score calculation is 0.10."));
-            localFields.Add(new OuraFields("Score Deep", "Sleep", "ScoreDeep", 15, "Represents deep (N3) sleep time's (see sleep.deep) contribution for sleep quality. The value depends on age of the user - the younger, the more sleep is needed for good score. The weight of sleep.score_deep in sleep score calculation is 0.10."));
-            localFields.Add(new OuraFields("Score Alignment", "Sleep", "ScoreAlignment", 16, "Represents circadian alignment's contribution for sleep score. Sleep midpoint time (sleep.midpoint_time) between 12PM and 3AM gives highest score. The more the midpoint time deviates from that range, the lower the score. The weigh of sleep.score_alignment in sleep score calculation is 0.10."));
-            localFields.Add(new OuraFields("Sleep Total", "Sleep", "SleepTotal", 17, "Total amount of sleep registered during the sleep period (sleep.total = sleep.rem + sleep.light + sleep.deep)."));
-            localFields.Add(new OuraFields("Duration", "Sleep", "Duration", 18, "Total duration of the sleep period (sleep.duration = sleep.bedtime_end - sleep.bedtime_start)."));
-            localFields.Add(new OuraFields("Awake Time", "Sleep", "Awake", 19, "Total amount of awake time registered during the sleep period."));
-            localFields.Add(new OuraFields("Light Sleep", "Sleep", "Light", 20, "Total amount of light (N1 or N2) sleep registered during the sleep period."));
-            localFields.Add(new OuraFields("REM Sleep", "Sleep", "REM", 21, "Total amount of REM sleep registered during the sleep period."));
-            localFields.Add(new OuraFields("Deep Sleep", "Sleep", "Deep", 22, "Total amount of deep (N3) sleep registered during the sleep period."));
-            localFields.Add(new OuraFields("Onset Latency", "Sleep", "OnsetLatency", 23, "Detected latency from bedtime_start to the beginning of the first five minutes of persistent sleep."));
-            localFields.Add(new OuraFields("Restless", "Sleep", "Restless", 24, "Restlessness of the sleep time, i.e. percentage of sleep time when the user was moving."));
-            localFields.Add(new OuraFields("Efficiency", "Sleep", "Efficiency", 25, "Sleep efficiency is the percentage of the sleep period spent asleep (100% * sleep.total / sleep.duration)."));
-            localFields.Add(new OuraFields("Midpoint Time", "Sleep", "MidpointTime", 26, "The time in seconds from the start of sleep to the midpoint of sleep. The midpoint ignores awake periods."));
-            localFields.Add(new OuraFields("HR Lowest", "Sleep", "HRLowest", 27, "The lowest heart rate (5 minutes sliding average) registered during the sleep period."));
-            localFields.Add(new OuraFields("HR Average", "Sleep", "HRAverage", 28, "The average heart rate registered during the sleep period."));
-            localFields.Add(new OuraFields("RMSSD", "Sleep", "RMSSD", 29, "The average HRV calculated with rMSSD method."));
-            localFields.Add(new OuraFields("Breath Average", "Sleep", "BreathAverage", 30, "Average respiratory rate in breaths per minute."));
-            localFields.Add(new OuraFields("Temperature Delta", "Sleep", "TemperatureDelta", 31, "Skin temperature deviation from the long-term temperature average."));
-            localFields.Add(new OuraFields("Hypnogram 5 Min", "Sleep", "Hypnogram5Min", 32, false, AccessorType.Property));
-            localFields.Add(new OuraFields("HR 5 Min", "Sleep", "HR5Min", 33, false, AccessorType.Property));
-            localFields.Add(new OuraFields("RMSSD 5 Min", "Sleep", "RMSSD5Min", 34, false, AccessorType.Property));
-            localFields.Add(new OuraFields("Temperature Deviation", "Sleep", "TemperatureDeviation", 35));
-            localFields.Add(new OuraFields("Temperature Trend Deviation", "Sleep", "TemperatureTrendDeviation", 36));
-            localFields.Add(new OuraFields("Bedtime Start Delta", "Sleep", "BedtimeStartDelta", 37));
-            localFields.Add(new OuraFields("Bedtime End Delta", "Sleep", "BedtimeEndDelta", 38));
-            localFields.Add(new OuraFields("Midpoint At Delta", "Sleep", "MidpointAtDelta", 39));
-            localFields.Add(new OuraFields("Timestamp", "Sleep", "Timestamp", 40));
-            localFields.Add(new OuraFields("Timestamp (Absolute)", "Sleep", "TimestampFormatLocal", 41, true, AccessorType.Method));
+            localFields.Add(new OuraFields("Summary Date", "Sleep", "SummaryDate", 1, "Date when the measured period started.", true));
 
-            localFields.Add(new OuraFields("Type", "Sleep", "Type", 42, "Possible sleep periods - 'sleep'\'long_sleep'\'late_nap'\'rest'"));
-            localFields.Add(new OuraFields("Average Breath Variation", "Sleep", "AverageBreathVariation", 43));
-            localFields.Add(new OuraFields("Got Up Count", "Sleep", "GotUpCount", 44));
-            localFields.Add(new OuraFields("Wake Up Count", "Sleep", "WakeUpCount", 45));
-            localFields.Add(new OuraFields("Lowest Heart Rate Time Offset", "Sleep", "LowestHeartRateTimeOffset", 46));
+            // Sleep (per-period) fields - source: /v2/usercollection/sleep
+            localFields.Add(new OuraFields("Sleep Period Id", "Sleep", "s_id", 2, false, AccessorType.Property, "Unique identifier for the sleep period."));
+            localFields.Add(new OuraFields("Bedtime Start", "Sleep", "s_bedtime_start", 5, "Local time when the sleep period started.", true));
+            localFields.Add(new OuraFields("Bedtime End", "Sleep", "s_bedtime_end", 6, "Local time when the sleep period ended.", true));
+            localFields.Add(new OuraFields("Bedtime Start (Absolute)", "Sleep", "BedtimeStartFormatLocal", 7, true, AccessorType.Method, "Time when the sleep period started, ignoring timezones."));
+            localFields.Add(new OuraFields("Bedtime End (Absolute)", "Sleep", "BedtimeEndFormatLocal", 8, true, AccessorType.Method, "Time when the sleep period ended, ignoring timezones."));
+            localFields.Add(new OuraFields("Total Sleep Duration", "Sleep", "s_total_sleep_duration", 17, "Total amount of sleep registered during the sleep period, in seconds (rem + light + deep).", true));
+            localFields.Add(new OuraFields("Time In Bed", "Sleep", "s_time_in_bed", 18, "Total duration spent in bed, in seconds."));
+            localFields.Add(new OuraFields("Awake Time", "Sleep", "s_awake_time", 19, "Total amount of awake time registered during the sleep period, in seconds.", true));
+            localFields.Add(new OuraFields("Light Sleep Duration", "Sleep", "s_light_sleep_duration", 20, "Total amount of light sleep registered during the sleep period, in seconds.", true));
+            localFields.Add(new OuraFields("REM Sleep Duration", "Sleep", "s_rem_sleep_duration", 21, "Total amount of REM sleep registered during the sleep period, in seconds.", true));
+            localFields.Add(new OuraFields("Deep Sleep Duration", "Sleep", "s_deep_sleep_duration", 22, "Total amount of deep (N3) sleep registered during the sleep period, in seconds.", true));
+            localFields.Add(new OuraFields("Restless Periods", "Sleep", "s_restless_periods", 24, "Number of restless periods during the sleep period."));
+            localFields.Add(new OuraFields("Efficiency", "Sleep", "s_efficiency", 25, "Sleep efficiency: percentage of the sleep period actually spent asleep."));
+            localFields.Add(new OuraFields("Lowest Heart Rate", "Sleep", "s_lowest_heart_rate", 27, "The lowest heart rate (5 minute sliding average) registered during the sleep period."));
+            localFields.Add(new OuraFields("Average Heart Rate", "Sleep", "s_average_heart_rate", 28, "The average heart rate registered during the sleep period."));
+            localFields.Add(new OuraFields("Average Breath", "Sleep", "s_average_breath", 30, "Average respiratory rate in breaths per minute."));
+            localFields.Add(new OuraFields("Average HRV", "Sleep", "s_average_hrv", 31, "Average heart rate variability during the sleep period."));
+            localFields.Add(new OuraFields("Heart Rate (5 min items)", "Sleep", "s_heart_rate_items", 32, false, AccessorType.Property, "Raw 5-minute heart rate samples for the sleep period."));
+            localFields.Add(new OuraFields("HRV (5 min items)", "Sleep", "s_hrv_items", 33, false, AccessorType.Property, "Raw 5-minute HRV samples for the sleep period."));
+            localFields.Add(new OuraFields("Latency", "Sleep", "s_latency", 34, "Time it took to fall asleep, in seconds."));
+            localFields.Add(new OuraFields("Movement 30 Sec", "Sleep", "s_movement_30_sec", 35, false, AccessorType.Property, "30-second movement classification string (1=no motion, 2=restless, 3=tossing/turning, 4=active)."));
+            localFields.Add(new OuraFields("Sleep Phase 5 Min", "Sleep", "s_sleep_phase_5_min", 36, false, AccessorType.Property, "5-minute sleep phase classification string (1=deep, 2=light, 3=REM, 4=awake)."));
+            localFields.Add(new OuraFields("Readiness Score Delta", "Sleep", "s_readiness_score_delta", 37, "Effect on the readiness score caused by this sleep period."));
+            localFields.Add(new OuraFields("Sleep Score Delta", "Sleep", "s_sleep_score_delta", 38, "Effect on the sleep score caused by this sleep period."));
+            localFields.Add(new OuraFields("Sleep Algorithm Version", "Sleep", "s_sleep_algorithm_version", 39, false, AccessorType.Property, "Version of the sleep algorithm used to calculate this data."));
+            localFields.Add(new OuraFields("Low Battery Alert", "Sleep", "s_low_battery_alert", 40, "Flag indicating a low ring battery alert occurred during the sleep period."));
+            localFields.Add(new OuraFields("Sleep Type", "Sleep", "s_type", 42, "Possible sleep periods - 'sleep', 'long_sleep', 'late_nap', 'rest'."));
 
-            // Activity Fields
-            localFields.Add(new OuraFields("Activity Timezone", "Activity", "ActivityTimezone", 50));
-            localFields.Add(new OuraFields("Day Start", "Activity", "DayStart", 51, "UTC time when the activity day began. Oura activity day is usually from 4AM to 4AM local time."));
-            localFields.Add(new OuraFields("Day End", "Activity", "DayEnd", 52, "UTC time when the activity day ended. Oura activity day is usually from 4AM to 4AM local time."));
-            localFields.Add(new OuraFields("Day Start (local)", "Activity", "DayStartFormatLocal", 53, true, AccessorType.Method, "Absolute time when the activity day began ignoring timezones. Oura activity day is usually from 4AM to 4AM local time."));
-            localFields.Add(new OuraFields("Day End (local)", "Activity", "DayEndFormatLocal", 54, true, AccessorType.Method, "Absolute time when the activity day ended ignoring timezones. Oura activity day is usually from 4AM to 4AM local time."));
-            localFields.Add(new OuraFields("Calorie Active", "Activity", "CalActive", 55, "Energy consumption caused by the physical activity of the day in kilocalories."));
-            localFields.Add(new OuraFields("Calorie Total", "Activity", "CalTotal", 56, "Total energy consumption during the day including Basal Metabolic Rate in kilocalories."));
-            localFields.Add(new OuraFields("Class 5 min", "Activity", "Class5min", 57, false, AccessorType.Property));
-            localFields.Add(new OuraFields("Steps", "Activity", "Steps", 58, "Total number of steps registered during the day."));
-            localFields.Add(new OuraFields("Daily Movement", "Activity", "DailyMovement", 59, "Daily physical activity as equal meters i.e. amount of walking needed to get the same amount of activity."));
-            localFields.Add(new OuraFields("Non Wear", "Activity", "NonWear", 60, "Number of minutes during the day when the user was not wearing the ring. Can be used as a proxy for data accuracy, i.e. how well the measured physical activity represents actual total activity of the ring user."));
-            localFields.Add(new OuraFields("Rest", "Activity", "Rest", 61, "Number of minutes during the day spent resting i.e. sleeping or lying down (average MET level of the minute is below 1.05)."));
-            localFields.Add(new OuraFields("Inactive", "Activity", "Inactive", 62, "Number of inactive minutes (sitting or standing still, average MET level of the minute between 1.05 and 2) during the day."));
-            localFields.Add(new OuraFields("Low Activity", "Activity", "Low", 63, "Number of minutes during the day with low intensity activity (e.g. household work, average MET level of the minute between 2 and age dependent limit)."));
-            localFields.Add(new OuraFields("Medium Activity", "Activity", "Medium", 64, "Number of minutes during the day with medium intensity activity (e.g. walking). The upper and lower MET level limits for medium intensity activity depend on user's age and gender."));
-            localFields.Add(new OuraFields("High Activity", "Activity", "High", 65, "Number of minutes during the day with high intensity activity (e.g. running). The lower MET level limit for high intensity activity depends on user's age and gender."));
-            localFields.Add(new OuraFields("Inactivity Alerts", "Activity", "InactivityAlerts", 66, "Number of continuous inactive periods of 60 minutes or more during the day."));
-            localFields.Add(new OuraFields("Average Met", "Activity", "AverageMet", 67, "Average MET level during the whole day."));
-            localFields.Add(new OuraFields("Met 1 min", "Activity", "Met1min", 68, false, AccessorType.Property));
-            localFields.Add(new OuraFields("Met Min Inactive", "Activity", "MetMinInactive", 69, "Total MET minutes accumulated during inactive minutes of the day."));
-            localFields.Add(new OuraFields("Met Min Low", "Activity", "MetMinLow", 70, "Total MET minutes accumulated during low intensity activity minutes of the day."));
-            localFields.Add(new OuraFields("Met Min Medium", "Activity", "MetMinMedium", 71, "Total MET minutes accumulated during medium intensity activity minutes of the day."));
-            localFields.Add(new OuraFields("Met Min High", "Activity", "MetMinHigh", 72, "Total MET minutes accumulated during high intensity activity minutes of the day."));
-            localFields.Add(new OuraFields("Target Calories", "Activity", "TargetCalories", 73));
-            localFields.Add(new OuraFields("Target KM", "Activity", "TargetKM", 74));
-            localFields.Add(new OuraFields("Target Miles", "Activity", "TargetMiles", 75));
-            localFields.Add(new OuraFields("To Target KM", "Activity", "ToTargetKM", 76));
-            localFields.Add(new OuraFields("To Target Miles", "Activity", "ToTargetMiles", 77));
-            localFields.Add(new OuraFields("Activity Score", "Activity", "ActivityScore", 78, "Provides an estimate how well recent physical activity has matched ring user's needs. It is calculated as a weighted average of activity score contributors that represent one aspect of suitability of the activity each. The contributor values are also available as separate parameters."));
-            localFields.Add(new OuraFields("Score Meet Daily Targets", "Activity", "ScoreMeetDailyTargets", 79, "This activity score contributor indicates how often the ring user has reached his/her daily activity target during seven last days (100 = six or seven times, 95 = five times)."));
-            localFields.Add(new OuraFields("Score Move Every Hour", "Activity", "ScoreMoveEveryHour", 80, "This activity score contributor indicates how well the ring user has managed to avoid long periods of inactivity (sitting or standing still) during last 24 hours. The contributor includes number of continuous inactive periods of 60 minutes or more (excluding sleeping). The more long inactive periods, the lower contributor value."));
-            localFields.Add(new OuraFields("Score Recovery Time", "Activity", "ScoreRecoveryTime", 81, "This activity score contributor indicates if the user has got enough recovery time during last seven days."));
-            localFields.Add(new OuraFields("Score Stay Active", "Activity", "ScoreStayActive", 82, "This activity score contributor indicates how well the ring user has managed to avoid of inactivity (sitting or standing still) during last 24 hours. The more inactivity, the lower contributor value."));
-            localFields.Add(new OuraFields("Score Training Frequency", "Activity", "ScoreTrainingFrequency", 83, "This activity score contributor indicates how regularly the ring user has had physical exercise the ring user has got during last seven days. The contributor value is 100 when the user has got more than 100 minutes of medium or high intensity activity on at least four days during past seven days. The contributor value is 95 when the user has got more than 100 minutes of medium or high intensity activity on at least three days during past seven days."));
-            localFields.Add(new OuraFields("Score Training Volume", "Activity", "ScoreTrainingVolume", 84, "This activity score contributor indicates how much physical exercise the ring user has got during last seven days. The contributor value is 100 when thes sum of weekly MET minutes is over 2000.The contributor value is 95 when the sum of weekly MET minutes is over 750.There is a weighting function so that the effect of each day gradually disappears."));
-            localFields.Add(new OuraFields("Activity Rest Mode State", "Activity", "ActivityRestModeState", 85, "Indicates whether Rest Mode was enabled or recently enabled. The Rest Mode state can be one of five states:"));
-            localFields.Add(new OuraFields("Activity Total", "Activity", "ActivityTotal", 86));
+            // Daily Sleep score - source: /v2/usercollection/daily_sleep
+            localFields.Add(new OuraFields("Daily Sleep Score", "Sleep", "ds_score", 43, "Daily sleep score (0-100), a weighted average of the sleep score contributors below.", true));
+            localFields.Add(new OuraFields("Daily Sleep Timestamp", "Sleep", "ds_timestamp", 44, "Timestamp the daily sleep score was calculated for."));
+            localFields.Add(new OuraFields("Score Contributor: Efficiency", "Sleep", "ds_efficiency", 45, "Contribution of sleep efficiency to the daily sleep score, range [1,100]."));
+            localFields.Add(new OuraFields("Score Contributor: Latency", "Sleep", "ds_latency", 46, "Contribution of sleep latency to the daily sleep score, range [1,100]."));
+            localFields.Add(new OuraFields("Score Contributor: Timing", "Sleep", "ds_timing", 47, "Contribution of sleep timing to the daily sleep score, range [1,100]."));
+            localFields.Add(new OuraFields("Score Contributor: Restfulness", "Sleep", "ds_restfulness", 48, "Contribution of restfulness to the daily sleep score, range [1,100]."));
+            localFields.Add(new OuraFields("Score Contributor: REM Sleep", "Sleep", "ds_rem_sleep", 49, "Contribution of REM sleep to the daily sleep score, range [1,100]."));
+            localFields.Add(new OuraFields("Score Contributor: Deep Sleep", "Sleep", "ds_deep_sleep", 50, "Contribution of deep sleep to the daily sleep score, range [1,100]."));
+            localFields.Add(new OuraFields("Score Contributor: Total Sleep", "Sleep", "ds_total_sleep", 51, "Contribution of total sleep to the daily sleep score, range [1,100]."));
 
-            localFields.Add(new OuraFields("Readiness Period Id", "Readiness", "ReadinessPeriodId", 95, "Index of the sleep period among sleep periods with the same summary_date, where 0 = first sleep period of the day. Each readinesss calculation is associated with a sleep period."));
-            localFields.Add(new OuraFields("Readiness Score", "Readiness", "ReadinessScore", 96));
-            localFields.Add(new OuraFields("Score Activity Balance", "Readiness", "ScoreActivityBalance", 97));
-            localFields.Add(new OuraFields("Score HRV Balance", "Readiness", "ScoreHRVBalance", 98));
-            localFields.Add(new OuraFields("Score Previous Day", "Readiness", "ScorePreviousDay", 99));
-            localFields.Add(new OuraFields("Score Previous Night", "Readiness", "ScorePreviousNight", 100));
-            localFields.Add(new OuraFields("Score Recovery Index", "Readiness", "ScoreRecoveryIndex", 101));
-            localFields.Add(new OuraFields("Score Resting HR", "Readiness", "ScoreRestingHR", 102));
-            localFields.Add(new OuraFields("Score Sleep Balance", "Readiness", "ScoreSleepBalance", 103));
-            localFields.Add(new OuraFields("Score Temperature", "Readiness", "ScoreTemperature", 104));
-            localFields.Add(new OuraFields("Readiness Rest Mode State", "Readiness", "ReadinessRestModeState", 105, "Indicates whether Rest Mode was enabled or recently enabled. The Rest Mode state can be one of five states: 0: Off; 1: Entering Rest Mode; 2: Rest Mode; 3: Entering recovery; 4: Recovering"));
+            // Activity Fields - source: /v2/usercollection/daily_activity
+            localFields.Add(new OuraFields("Activity Score", "Activity", "act_score", 55, "Daily activity score (0-100), estimating how well recent activity matched the ring user's needs.", true));
+            localFields.Add(new OuraFields("Activity Timestamp", "Activity", "act_timestamp", 56, "Timestamp the daily activity score was calculated for."));
+            localFields.Add(new OuraFields("Calorie Active", "Activity", "act_active_calories", 57, "Energy consumption caused by physical activity during the day, in kilocalories.", true));
+            localFields.Add(new OuraFields("Calorie Total", "Activity", "act_total_calories", 58, "Total energy consumption during the day, including Basal Metabolic Rate, in kilocalories.", true));
+            localFields.Add(new OuraFields("Class 5 Min", "Activity", "act_class_5_min", 59, false, AccessorType.Property, "5-minute activity classification string for the day."));
+            localFields.Add(new OuraFields("Steps", "Activity", "act_steps", 60, "Total number of steps registered during the day.", true));
+            localFields.Add(new OuraFields("Non Wear Time", "Activity", "act_non_wear_time", 61, "Minutes during the day the ring was not being worn, in seconds. Can be used as a proxy for data accuracy."));
+            localFields.Add(new OuraFields("Resting Time", "Activity", "act_resting_time", 62, "Time spent resting (sleeping or lying down) during the day, in seconds."));
+            localFields.Add(new OuraFields("Sedentary Time", "Activity", "act_sedentary_time", 63, "Time spent sedentary (sitting or standing still) during the day, in seconds."));
+            localFields.Add(new OuraFields("Low Activity Time", "Activity", "act_low_activity_time", 64, "Time spent in low intensity activity during the day, in seconds."));
+            localFields.Add(new OuraFields("Medium Activity Time", "Activity", "act_medium_activity_time", 65, "Time spent in medium intensity activity during the day, in seconds."));
+            localFields.Add(new OuraFields("High Activity Time", "Activity", "act_high_activity_time", 66, "Time spent in high intensity activity during the day, in seconds."));
+            localFields.Add(new OuraFields("Inactivity Alerts", "Activity", "act_inactivity_alerts", 67, "Number of continuous inactive periods of 60 minutes or more during the day."));
+            localFields.Add(new OuraFields("Average MET Minutes", "Activity", "act_average_met_minutes", 68, "Average MET level during the whole day."));
+            localFields.Add(new OuraFields("MET Items (per minute)", "Activity", "act_metItems", 69, false, AccessorType.Property, "Raw per-minute MET level samples for the day."));
+            localFields.Add(new OuraFields("Sedentary MET Minutes", "Activity", "act_sedentary_met_minutes", 70, "Total MET minutes accumulated during sedentary minutes of the day."));
+            localFields.Add(new OuraFields("Low Activity MET Minutes", "Activity", "act_low_activity_met_minutes", 71, "Total MET minutes accumulated during low intensity activity minutes of the day."));
+            localFields.Add(new OuraFields("Medium Activity MET Minutes", "Activity", "act_medium_activity_met_minutes", 72, "Total MET minutes accumulated during medium intensity activity minutes of the day."));
+            localFields.Add(new OuraFields("High Activity MET Minutes", "Activity", "act_high_activity_met_minutes", 73, "Total MET minutes accumulated during high intensity activity minutes of the day."));
+            localFields.Add(new OuraFields("Target Calories", "Activity", "act_target_calories", 74, "Daily calorie burn target."));
+            localFields.Add(new OuraFields("Target Meters", "Activity", "act_target_meters", 75, "Daily equivalent walking distance target, in meters."));
+            localFields.Add(new OuraFields("Meters To Target", "Activity", "act_meters_to_target", 76, "Remaining distance, in meters, to reach the daily target."));
+            localFields.Add(new OuraFields("Equivalent Walking Distance", "Activity", "act_equivalent_walking_distance", 77, "Equivalent walking distance for the day's activity, in meters."));
+            localFields.Add(new OuraFields("Score Contributor: Meet Daily Targets", "Activity", "act_meet_daily_targets", 78, "How often the daily activity target has been reached over the last seven days."));
+            localFields.Add(new OuraFields("Score Contributor: Move Every Hour", "Activity", "act_move_every_hour", 79, "How well long periods of inactivity have been avoided over the last 24 hours."));
+            localFields.Add(new OuraFields("Score Contributor: Recovery Time", "Activity", "act_recovery_time", 80, "Whether sufficient recovery time has been had over the last seven days."));
+            localFields.Add(new OuraFields("Score Contributor: Stay Active", "Activity", "act_stay_active", 81, "How well inactivity has been avoided over the last 24 hours."));
+            localFields.Add(new OuraFields("Score Contributor: Training Frequency", "Activity", "act_training_frequency", 82, "How regularly physical exercise has occurred over the last seven days."));
+            localFields.Add(new OuraFields("Score Contributor: Training Volume", "Activity", "act_training_volume", 83, "How much physical exercise has occurred over the last seven days."));
 
+            // Readiness fields
+            localFields.Add(new OuraFields("Readiness Score", "Readiness", "rr_Score", 96, "Daily readiness score.", true));
+            localFields.Add(new OuraFields("Activity Balance", "Readiness", "rr_activity_balance", 97, "Contribution of cumulative activity balance in range [1, 100]."));
+            localFields.Add(new OuraFields("Heart Rate Variability(HRV) Balance", "Readiness", "rr_hrv_balance", 98, "Contribution of heart rate variability balance in range [1, 100]."));
+            localFields.Add(new OuraFields("Previous Day Activity", "Readiness", "rr_previous_day_activity", 99, "Contribution of previous day's activity in range [1, 100]."));
+            localFields.Add(new OuraFields("Previous Night", "Readiness", "rr_previous_night", 100, "Contribution of previous night's sleep in range [1, 100]."));
+            localFields.Add(new OuraFields("Recovery Index", "Readiness", "rr_recovery_index", 101, "Contribution of recovery index in range [1, 100]."));
+            localFields.Add(new OuraFields("Resting Heart Rate", "Readiness", "rr_resting_heart_rate", 102, "Contribution of resting heart rate in range [1, 100]."));
+            localFields.Add(new OuraFields("Sleep Balance", "Readiness", "rr_sleep_balance", 103, "Contribution of sleep balance in range [1, 100]."));
+            localFields.Add(new OuraFields("Temperature Deviation", "Readiness", "rr_temperature_deviation", 104, "Temperature deviation in degrees Celsius."));
+            localFields.Add(new OuraFields("Temperature Trend Deviation", "Readiness", "rr_temperature_trend_deviation", 105, "Temperature trend deviation in degrees Celsius."));
+            localFields.Add(new OuraFields("Body Temperature", "Readiness", "rr_body_temperature", 106, "Contribution of body temperature in range [1, 100]."));
+            localFields.Add(new OuraFields("Readiness Timestamp", "Readiness", "rr_Timestamp", 107, "Timestamp of the daily readiness."));
             defaultFields = localFields;
+
+    }
+
+
+        private static void SetupDefaultWorkoutFields()
+        {
+            List<OuraFields> localFields = new List<OuraFields>();
+            localFields.Add(new OuraFields("Id", "Workouts", "id", 1, false, AccessorType.Property, "Id of the workout.", false));
+            localFields.Add(new OuraFields("day", "Workouts", "day", 2, "Day when the workout occurred.", true));
+            localFields.Add(new OuraFields("Start Date/Time", "Workouts", "start_datetime", 3, "Timestamp indicating when the workout started.", true));
+            localFields.Add(new OuraFields("End Date/Time", "Workouts", "end_datetime", 4, "Timestamp indicating when the workout ended.", true));
+            localFields.Add(new OuraFields("Activity", "Workouts", "activity", 5, "Type of the workout activity.", true));
+            localFields.Add(new OuraFields("Distance", "Workouts", "distance", 6, "Distance traveled in meters during the workout.", true));
+            localFields.Add(new OuraFields("Calories", "Workouts", "calories", 7, "Energy burned in kilocalories during the workout."));
+            localFields.Add(new OuraFields("Intensity", "Workouts", "intensity", 8, "Possible workout intensities.", true));
+            localFields.Add(new OuraFields("Source", "Workouts", "source", 9, "Possible workout sources.", true));
+            defaultWorkoutFields = localFields;
+
         }
 
-        /// <summary>
-        /// Clear the singleton interface to force it to re-initialize on next request
-        /// </summary>
+        private static void SetupDefaultTagFields()
+        {
+            List<OuraFields> localFields = new List<OuraFields>();
+            localFields.Add(new OuraFields("Id", "Tags", "id", 1, false,AccessorType.Property, "Id of the recorded tag.", false));
+            localFields.Add(new OuraFields("Start Day", "Tags", "start_day", 2, "Day of the tag (if no duration) or the start day of the tag (with duration).", true));
+            localFields.Add(new OuraFields("Start Time", "Tags", "start_time", 3, "Timestamp of the tag (if no duration) or the start time of the tag (with duration).", true));
+            localFields.Add(new OuraFields("End Day", "Tags", "end_day", 4, "Day of the tag's end for events with duration or `NULL` if there is no duration.", true));
+            localFields.Add(new OuraFields("End Time", "Tags", "end_time", 5, "Timestamp of the tag's end for events with duration or `NULL` if there is no duration.", true));
+            localFields.Add(new OuraFields("Tag Type Code", "Tags", "tag_type_code", 6, "The unique code of the selected tag type, `NULL` for text-only tags, or `custom` for custom tag types.", true));
+            localFields.Add(new OuraFields("Comment", "Tags", "comment", 7, "Additional freeform text on the tag.", true));
+            defaultTagFields = localFields;
+        }
+
+        private static void SetupDefaultSpo2Fields()
+        {
+            List<OuraFields> localFields = new List<OuraFields>();
+            localFields.Add(new OuraFields("Id", "Spo2", "id", 1, false, AccessorType.Property, "Id of the recorded Spo2.", false));
+            localFields.Add(new OuraFields("Day", "Spo2", "day", 1, "Day of the recording", true));
+            localFields.Add(new OuraFields("Average Percentage", "Spo2", "spo2PercentageAverage", 1,true, AccessorType.Method, "Average oxygen saturation (SpO2) throughout the night.", true));
+            defaultSpo2Fields = localFields;
+        }
+
+        private static readonly object DefaultsLock = new object();
+
         public static void ResetFields()
         {
-            defaultFields = null;
+            lock (DefaultsLock)
+            {
+                defaultFields = defaultTagFields = defaultSpo2Fields = defaultWorkoutFields = null;
+            }
         }
 
-        /// <summary>
-        /// Create Static singleton interface for the OuraFields definitions
-        /// </summary>
-        /// <returns></returns>
         public static List<OuraFields> CurrentFields()
         {
-            if (defaultFields == null)
+            lock (DefaultsLock)
             {
-                SetupDefaultFields();
+                if (defaultFields == null) SetupDefaultFields();
+                return defaultFields.Select(OuraAPIInterface.OuraFieldSelections.Clone).ToList();
             }
-            return defaultFields;
         }
 
+        public static List<OuraFields> CurrentTagFields()
+        {
+            lock (DefaultsLock)
+            {
+                if (defaultTagFields == null) SetupDefaultTagFields();
+                return defaultTagFields.Select(OuraAPIInterface.OuraFieldSelections.Clone).ToList();
+            }
+        }
+
+        public static List<OuraFields> CurrentSpo2Fields()
+        {
+            lock (DefaultsLock)
+            {
+                if (defaultSpo2Fields == null) SetupDefaultSpo2Fields();
+                return defaultSpo2Fields.Select(OuraAPIInterface.OuraFieldSelections.Clone).ToList();
+            }
+        }
+
+        public static List<OuraFields> CurrentWorkoutFields()
+        {
+            lock (DefaultsLock)
+            {
+                if (defaultWorkoutFields == null) SetupDefaultWorkoutFields();
+                return defaultWorkoutFields.Select(OuraAPIInterface.OuraFieldSelections.Clone).ToList();
+            }
+        }
         public enum AccessorType { Method, Property };  // identify if field definition is to a property or method
 
         public string FieldName { get; set; }       // Name of the field, also default label displayed in the header
@@ -167,7 +230,8 @@ namespace ExcelOuraVSTOAddIn
         /// <param name="accessible">Show this field in the UI?</param>
         /// <param name="aType">Type of accessor on OuraCombinedObject - Method or Property</param>
         /// <param name="desc">Description of the field</param>
-        public OuraFields(string fieldName, string ouraSection, string methodName, int fieldOrder, bool accessible, AccessorType aType, string desc)
+        /// <param name="fieldSelected">Is the field checked by default?</param>
+        public OuraFields(string fieldName, string ouraSection, string methodName, int fieldOrder, bool accessible, AccessorType aType, string desc, bool fieldSelected)
         {
             this.FieldName = fieldName;
             this.OuraSection = ouraSection;
@@ -176,24 +240,36 @@ namespace ExcelOuraVSTOAddIn
             this.Accessor = aType;
             this.FieldOrder = fieldOrder;
             this.FieldDescription = desc;
+            this.FieldSelected = fieldSelected;
         }
 
+        public OuraFields(string fieldName, string ouraSection, string methodName, int fieldOrder, bool accessible, AccessorType aType, string desc)
+            : this(fieldName, ouraSection, methodName, fieldOrder, accessible, aType, desc, false)
+        { }
 
         // Call default constructor with some defaults
-        private OuraFields(string fieldName, string ouraSection, string methodName, int fieldOrder, bool accessible, AccessorType aType) 
-            : this(fieldName, ouraSection, methodName, fieldOrder, accessible, aType, null)
+        private OuraFields(string fieldName, string ouraSection, string methodName, int fieldOrder, bool accessible, AccessorType aType)
+            : this(fieldName, ouraSection, methodName, fieldOrder, accessible, aType, null, false)
+        {
+        }
+        private OuraFields(string fieldName, string ouraSection, string methodName, int fieldOrder, bool accessible, AccessorType aType, bool fieldSelected)
+    : this(fieldName, ouraSection, methodName, fieldOrder, accessible, aType, null, fieldSelected)
+        {
+        }
+        // Call default constructor with some defaults
+        private OuraFields(string fieldName, string ouraSection, string methodName, int fieldOrder, string desc)
+            : this(fieldName, ouraSection, methodName, fieldOrder, true, AccessorType.Property, desc, false)
+        {
+        }
+
+        private OuraFields(string fieldName, string ouraSection, string methodName, int fieldOrder, string desc, bool fieldSelected)
+    : this(fieldName, ouraSection, methodName, fieldOrder, true, AccessorType.Property, desc, fieldSelected)
         {
         }
 
         // Call default constructor with some defaults
-        private OuraFields(string fieldName, string ouraSection, string methodName, int fieldOrder, string desc) 
-            : this(fieldName, ouraSection, methodName, fieldOrder, true, AccessorType.Property, desc)
-        {
-        }
-
-        // Call default constructor with some defaults
-        private OuraFields(string fieldName, string ouraSection, string methodName, int fieldOrder) 
-            : this(fieldName, ouraSection, methodName, fieldOrder, true, AccessorType.Property, null)
+        private OuraFields(string fieldName, string ouraSection, string methodName, int fieldOrder)
+            : this(fieldName, ouraSection, methodName, fieldOrder, true, AccessorType.Property, null, false)
         {
         }
     }

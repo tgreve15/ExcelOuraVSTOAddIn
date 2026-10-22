@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../OuraAPIInterface/OuraOAuthClient.cs" Link="OuraOAuthClient.cs" />
+    <Compile Include="../OuraAPIInterface/OuraApiTransport.cs" Link="OuraApiTransport.cs" />
+    <Compile Include="../OuraAPIInterface/OuraAPI2Wrapper.cs" Link="OuraAPI2Wrapper.cs" />
+    <Compile Include="../OuraAPIInterface/OuraFields.cs" Link="OuraFields.cs" />
+    <Compile Include="../OuraAPIInterface/OuraResponsesV2.cs" Link="OuraResponsesV2.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="../OuraAPIInterface/OuraValidation.cs" />
+    <Compile Include="../OuraAPIInterface/OuraHttpContent.cs" />
+    <Compile Include="../OuraAPIInterface/OuraTokenManager.cs" />
+    <Compile Include="../OuraAPIInterface/OuraCollections.cs" Link="OuraCollections.cs" />
+    <Compile Include="../OuraAPIInterface/OuraCollectionClient.cs" Link="OuraCollectionClient.cs" />
+    <Compile Include="CollectionTests.cs" />
+    <None Include="fixtures/*.json" CopyToOutputDirectory="PreserveNewest" />
+    <Compile Include="../OuraAPIInterface/OuraHttpClient.cs" Link="OuraHttpClient.cs" />
+    <Compile Include="../OuraAPIInterface/OuraExportTable.cs" Link="OuraExportTable.cs" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+  </ItemGroup>
+</Project>

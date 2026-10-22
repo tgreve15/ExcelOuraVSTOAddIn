@@ -25,6 +25,7 @@ namespace ExcelOuraVSTOAddIn
         {
             txtFieldName.Text = FieldName;
             txtSection.Text = Section;
+            txtCustomLabel.MaxLength = OuraAPIInterface.OuraExportLimits.MaximumTextLength - 1;
             txtCustomLabel.Text = CustomLabel;
         }
 

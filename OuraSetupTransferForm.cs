@@ -1,11 +1,7 @@
-﻿using System;
+using System;
+using OuraAPIInterface;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ExcelOuraVSTOAddIn
@@ -15,66 +11,44 @@ namespace ExcelOuraVSTOAddIn
         public OuraSetupTransferForm()
         {
             InitializeComponent();
+            AcceptButton = btnOk;
+            // The click handler sets OK only after validation succeeds.
+            btnOk.DialogResult = DialogResult.None;
         }
 
+        public Func<List<OuraFields>> DefaultsProvider { get; set; }
+        public bool UseDateRange { get; set; } = true;
         public bool IncludeHeaders { get; set; }
         public DateTime EndDate { get; set; }
         public DateTime StartDate { get; set; }
         public bool IncludeDescriptions { get; set; }
+        public string FormHeader { get; set; }
+        public List<OuraFields> FormFields { get; set; }
 
         private void OuraConfigurationForm_Load(object sender, EventArgs e)
         {
+            dtmStartDate.Enabled = dtmEndDate.Enabled = UseDateRange;
             dtmStartDate.MaxDate = DateTime.Today;
             dtmEndDate.MaxDate = DateTime.Today;
-            dtmEndDate.Value = ((EndDate == default(DateTime)) ? DateTime.Today : EndDate);
-            dtmStartDate.Value = ((StartDate == default(DateTime)) ? DateTime.Today.AddDays(-14) : StartDate);
+            dtmEndDate.Value = ClampDate(EndDate, DateTime.Today);
+            dtmStartDate.Value = ClampDate(StartDate, DateTime.Today.AddDays(-14));
             chkIncludeHeaders.Checked = IncludeHeaders;
             chkDescription.Checked = IncludeDescriptions;
             chkDescription.Enabled = IncludeHeaders;    // If IncludeHeaders is checked, enable Description
-
+            lblHeader.Text = UseDateRange ? FormHeader : FormHeader + " (dates do not apply)";
             InitializeListView();
         }
 
         // Do Everything to load the list view with available fields
         private void InitializeListView()
         {
-            // ListView Grouping
-            // Although this looked good when enabled, the grouping caused the drag-drop 
-            // reordering to not work correctly, and didn't make sense when you may want 
-            // Activity or Readiness data in front of Sleep data. Shame, but there it is.
-
-            //lvListView.ShowGroups = true;
-            //ListViewGroup sg = new ListViewGroup("sleep", "Sleep");
-            //ListViewGroup ag = new ListViewGroup("activity", "Activity");
-            //ListViewGroup rg = new ListViewGroup("readiness", "Readiness");
-
-            //lvListView.Groups.Add(sg);
-            //lvListView.Groups.Add(ag);
-            //lvListView.Groups.Add(rg);
-
-            foreach (OuraFields aField in OuraFields.CurrentFields().OrderBy(i => i.FieldOrder))
+            foreach (OuraFields aField in FormFields.OrderBy(i => i.FieldOrder))
             {
                 // For more complex fields, don't show them - configured with Accessible = false
                 if (!aField.Accessible)
                     continue;
 
-                ListViewItem i = new ListViewItem(aField.FieldName);
-
-                // Set the group based on the Oura Section
-                //switch (aField.OuraSection)
-                //{
-                //    case "Sleep":
-                //        i.Group = sg;
-                //        break;
-                //    case "Activity":
-                //        i.Group = ag;
-                //        break;
-                //    case "Readiness":
-                //        i.Group = rg;
-                //        break;
-                //    default:
-                //        break;
-                //}
+                ListViewItem i = new ListViewItem(aField.FieldName) { Tag = aField };
 
                 i.SubItems.Add(aField.OuraSection);
                 i.SubItems.Add(aField.CustomLabel);
@@ -101,6 +75,12 @@ namespace ExcelOuraVSTOAddIn
         /// <param name="e"></param>
         private void BtnOk_Click(object sender, EventArgs e)
         {
+            if (UseDateRange && dtmStartDate.Value.Date > dtmEndDate.Value.Date)
+            {
+                errorProviderApp.SetError(dtmStartDate, "Start date must be on or before end date.");
+                return;
+            }
+            errorProviderApp.SetError(dtmStartDate, "");
             // Make sure there is at least one field selected to show in Excel
             if (lvListView.CheckedItems.Count == 0)
             {
@@ -122,7 +102,7 @@ namespace ExcelOuraVSTOAddIn
                 int fieldOrder = 1;
                 foreach (ListViewItem lvi in lvListView.Items)
                 {
-                    OuraFields f = OuraFields.CurrentFields().FirstOrDefault(item => item.FieldName == lvi.Text);
+                    OuraFields f = lvi.Tag as OuraFields;
                     if (f != null)
                     {
                         f.CustomLabel = lvi.SubItems[2].Text;
@@ -131,8 +111,6 @@ namespace ExcelOuraVSTOAddIn
                     }
                 }
                 // All is good, we can close the dialog box
-                // NOTE: this button is NOT set to be default for the form as if it is, it is much harder to
-                // prevent this finalizing and closing the dialog if no fields were selected.
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
@@ -146,35 +124,18 @@ namespace ExcelOuraVSTOAddIn
         /// <param name="e"></param>
         private void lvListView_DoubleClick(object sender, EventArgs e)
         {
-            ChangeLabelForm changeLabelForm = new ChangeLabelForm();
-            ListView localSender = sender as ListView;
-            if (localSender != null)
+            var list = sender as ListView;
+            var item = list?.FocusedItem;
+            if (item == null) return;
+            using (var form = new ChangeLabelForm
             {
-                ListViewItem selectedItem = localSender.FocusedItem;
-                if (selectedItem != null)
-                {
-                    changeLabelForm.FieldName = selectedItem.Text;
-                    changeLabelForm.Section = selectedItem.SubItems[1].Text;
-                    changeLabelForm.CustomLabel = selectedItem.SubItems[2].Text;
-                    DialogResult result = changeLabelForm.ShowDialog();
-                    if (result != DialogResult.OK)
-                    {
-                        return;
-                    }
-                    else
-                    {
-                        // If they set the CustomLabel to the FieldName, just clear the custom label and use the default
-                        if (selectedItem.Text == changeLabelForm.CustomLabel)
-                        {
-                            selectedItem.SubItems[2].Text = "";
-                        }
-                        else
-                        {
-                            // Update the field in the list view with the new custom label
-                            selectedItem.SubItems[2].Text = changeLabelForm.CustomLabel;
-                        }
-                    }
-                }
+                FieldName = item.Text,
+                Section = item.SubItems[1].Text,
+                CustomLabel = item.SubItems[2].Text
+            })
+            {
+                if (form.ShowDialog(this) != DialogResult.OK) return;
+                item.SubItems[2].Text = form.CustomLabel == item.Text ? "" : form.CustomLabel;
             }
         }
 
@@ -185,7 +146,7 @@ namespace ExcelOuraVSTOAddIn
         /// <param name="e"></param>
         private void chkAll_CheckedChanged(object sender, EventArgs e)
         {
-            foreach(ListViewItem item in lvListView.Items)
+            foreach (ListViewItem item in lvListView.Items)
             {
                 item.Checked = chkAll.Checked;
             }
@@ -198,7 +159,7 @@ namespace ExcelOuraVSTOAddIn
         /// <param name="e"></param>
         private void btnReinitialize_Click(object sender, EventArgs e)
         {
-            OuraFields.ResetFields();
+            if (DefaultsProvider != null) FormFields = DefaultsProvider().Select(OuraFieldSelections.Clone).ToList();
             lvListView.Items.Clear();
             InitializeListView();
         }
@@ -214,11 +175,18 @@ namespace ExcelOuraVSTOAddIn
             if (chkIncludeHeaders.Checked)
             {
                 chkDescription.Enabled = true;
-            } else
+            }
+            else
             {
                 chkDescription.Enabled = false;
                 chkDescription.Checked = false;
             }
+        }
+        private static DateTime ClampDate(DateTime value, DateTime fallback)
+        {
+            value = value == DateTime.MinValue ? fallback : value.Date;
+            if (value < DateTimePicker.MinimumDateTime) return DateTimePicker.MinimumDateTime;
+            return value > DateTime.Today ? DateTime.Today : value;
         }
     }
 }

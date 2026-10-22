@@ -1,0 +1,29 @@
+name: Validate source
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  tests:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Unit tests
+        run: dotnet test tests/OuraUnitTests.csproj --configuration Release --logger trx --results-directory TestResults
+      - name: API and export regression checks
+        run: dotnet run --project tests/OuraRegressionTests.csproj --configuration Release
+      - name: Compile Framework UI and Excel integration source
+        run: dotnet build tests/FrameworkCompileCheck.csproj --configuration Release --warnaserror
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results-${{ matrix.os }}
+          path: TestResults/*.trx

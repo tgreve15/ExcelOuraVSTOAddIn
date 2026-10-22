@@ -39,7 +39,7 @@ namespace ExcelOuraVSTOAddIn
             this.label2 = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lblHeader = new System.Windows.Forms.Label();
             this.chkIncludeHeaders = new System.Windows.Forms.CheckBox();
             this.Section = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.FieldName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -47,7 +47,6 @@ namespace ExcelOuraVSTOAddIn
             this.errorProviderApp = new System.Windows.Forms.ErrorProvider(this.components);
             this.btnReinitialize = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.chkDescription = new System.Windows.Forms.CheckBox();
@@ -57,6 +56,7 @@ namespace ExcelOuraVSTOAddIn
             this.clmOuraSection = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmCustomLabel = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.clmDescription = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label5 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderApp)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -64,7 +64,7 @@ namespace ExcelOuraVSTOAddIn
             // btnOk
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOk.Location = new System.Drawing.Point(525, 446);
+            this.btnOk.Location = new System.Drawing.Point(525, 463);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(75, 23);
             this.btnOk.TabIndex = 8;
@@ -74,7 +74,7 @@ namespace ExcelOuraVSTOAddIn
             // 
             // dtmStartDate
             // 
-            this.dtmStartDate.Location = new System.Drawing.Point(173, 85);
+            this.dtmStartDate.Location = new System.Drawing.Point(173, 94);
             this.dtmStartDate.Margin = new System.Windows.Forms.Padding(2);
             this.dtmStartDate.MinDate = new System.DateTime(2000, 1, 1, 0, 0, 0, 0);
             this.dtmStartDate.Name = "dtmStartDate";
@@ -83,7 +83,7 @@ namespace ExcelOuraVSTOAddIn
             // 
             // dtmEndDate
             // 
-            this.dtmEndDate.Location = new System.Drawing.Point(173, 110);
+            this.dtmEndDate.Location = new System.Drawing.Point(173, 119);
             this.dtmEndDate.Margin = new System.Windows.Forms.Padding(2);
             this.dtmEndDate.Name = "dtmEndDate";
             this.dtmEndDate.Size = new System.Drawing.Size(189, 20);
@@ -92,7 +92,7 @@ namespace ExcelOuraVSTOAddIn
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(113, 85);
+            this.label1.Location = new System.Drawing.Point(113, 94);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(55, 13);
@@ -102,7 +102,7 @@ namespace ExcelOuraVSTOAddIn
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(113, 110);
+            this.label2.Location = new System.Drawing.Point(113, 119);
             this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(52, 13);
@@ -113,7 +113,7 @@ namespace ExcelOuraVSTOAddIn
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(605, 446);
+            this.btnCancel.Location = new System.Drawing.Point(605, 463);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 9;
@@ -123,7 +123,7 @@ namespace ExcelOuraVSTOAddIn
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(93, 139);
+            this.label3.Location = new System.Drawing.Point(93, 148);
             this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(537, 13);
@@ -131,21 +131,21 @@ namespace ExcelOuraVSTOAddIn
             this.label3.Text = "If you press OK, this will replace various columns and rows within your spreadshe" +
     "et starting with the selected cell.";
             // 
-            // label4
+            // lblHeader
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(111, 22);
-            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(422, 17);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Select the information to insert into your Excel worksheet";
+            this.lblHeader.AutoSize = true;
+            this.lblHeader.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHeader.Location = new System.Drawing.Point(111, 22);
+            this.lblHeader.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblHeader.Name = "lblHeader";
+            this.lblHeader.Size = new System.Drawing.Size(422, 17);
+            this.lblHeader.TabIndex = 7;
+            this.lblHeader.Text = "Select the information to insert into your Excel worksheet";
             // 
             // chkIncludeHeaders
             // 
             this.chkIncludeHeaders.AutoSize = true;
-            this.chkIncludeHeaders.Location = new System.Drawing.Point(383, 85);
+            this.chkIncludeHeaders.Location = new System.Drawing.Point(383, 94);
             this.chkIncludeHeaders.Name = "chkIncludeHeaders";
             this.chkIncludeHeaders.Size = new System.Drawing.Size(132, 17);
             this.chkIncludeHeaders.TabIndex = 4;
@@ -165,7 +165,7 @@ namespace ExcelOuraVSTOAddIn
             // 
             this.chkAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.chkAll.AutoSize = true;
-            this.chkAll.Location = new System.Drawing.Point(18, 448);
+            this.chkAll.Location = new System.Drawing.Point(18, 465);
             this.chkAll.Name = "chkAll";
             this.chkAll.Size = new System.Drawing.Size(101, 17);
             this.chkAll.TabIndex = 6;
@@ -180,7 +180,7 @@ namespace ExcelOuraVSTOAddIn
             // btnReinitialize
             // 
             this.btnReinitialize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnReinitialize.Location = new System.Drawing.Point(125, 446);
+            this.btnReinitialize.Location = new System.Drawing.Point(125, 463);
             this.btnReinitialize.Name = "btnReinitialize";
             this.btnReinitialize.Size = new System.Drawing.Size(129, 23);
             this.btnReinitialize.TabIndex = 7;
@@ -193,27 +193,18 @@ namespace ExcelOuraVSTOAddIn
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.Red;
-            this.label6.Location = new System.Drawing.Point(21, 139);
+            this.label6.Location = new System.Drawing.Point(21, 148);
             this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(71, 13);
             this.label6.TabIndex = 15;
             this.label6.Text = "WARNING:";
             // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(111, 35);
-            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(0, 13);
-            this.label7.TabIndex = 16;
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(122, 43);
+            this.label8.Location = new System.Drawing.Point(122, 55);
             this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(290, 13);
@@ -224,7 +215,7 @@ namespace ExcelOuraVSTOAddIn
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(122, 58);
+            this.label9.Location = new System.Drawing.Point(122, 70);
             this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(346, 13);
@@ -234,7 +225,7 @@ namespace ExcelOuraVSTOAddIn
             // chkDescription
             // 
             this.chkDescription.AutoSize = true;
-            this.chkDescription.Location = new System.Drawing.Point(383, 106);
+            this.chkDescription.Location = new System.Drawing.Point(383, 115);
             this.chkDescription.Name = "chkDescription";
             this.chkDescription.Size = new System.Drawing.Size(166, 17);
             this.chkDescription.TabIndex = 19;
@@ -266,11 +257,11 @@ namespace ExcelOuraVSTOAddIn
             this.lvListView.FullRowSelect = true;
             this.lvListView.GridLines = true;
             this.lvListView.HideSelection = false;
-            this.lvListView.Location = new System.Drawing.Point(18, 161);
+            this.lvListView.Location = new System.Drawing.Point(18, 164);
             this.lvListView.Name = "lvListView";
             this.lvListView.ShowGroups = false;
             this.lvListView.ShowItemToolTips = true;
-            this.lvListView.Size = new System.Drawing.Size(661, 279);
+            this.lvListView.Size = new System.Drawing.Size(661, 293);
             this.lvListView.TabIndex = 5;
             this.lvListView.UseCompatibleStateImageBehavior = false;
             this.lvListView.View = System.Windows.Forms.View.Details;
@@ -296,22 +287,33 @@ namespace ExcelOuraVSTOAddIn
             this.clmDescription.Text = "Description";
             this.clmDescription.Width = 400;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(122, 42);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(273, 13);
+            this.label5.TabIndex = 21;
+            this.label5.Text = "Select the information to insert into your Excel worksheet";
+            // 
             // OuraSetupTransferForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(691, 477);
+            this.ClientSize = new System.Drawing.Size(691, 494);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.chkDescription);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
-            this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.btnReinitialize);
             this.Controls.Add(this.chkAll);
             this.Controls.Add(this.chkIncludeHeaders);
-            this.Controls.Add(this.label4);
+            this.Controls.Add(this.lblHeader);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.label2);
@@ -342,7 +344,7 @@ namespace ExcelOuraVSTOAddIn
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lblHeader;
         private System.Windows.Forms.CheckBox chkIncludeHeaders;
         private System.Windows.Forms.ColumnHeader Section;
         private System.Windows.Forms.ColumnHeader FieldName;
@@ -354,10 +356,10 @@ namespace ExcelOuraVSTOAddIn
         private Button btnReinitialize;
         private Label label9;
         private Label label8;
-        private Label label7;
         private Label label6;
         private ColumnHeader clmDescription;
         private CheckBox chkDescription;
         private PictureBox pictureBox1;
+        private Label label5;
     }
 }

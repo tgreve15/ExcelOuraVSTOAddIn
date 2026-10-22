@@ -1,0 +1,291 @@
+{
+  "daily_cardiovascular_age": {
+    "data": [
+      {
+        "id": "daily_cardiovascular_age-1-2026-10-1",
+        "day": "2021-01-01",
+        "pulse_wave_velocity": null,
+        "vascular_age": 47
+      }
+    ],
+    "next_token": null
+  },
+  "session": {
+    "data": [
+      {
+        "id": "session-1-2026-10-1",
+        "day": "2026-10-01",
+        "end_datetime": "2026-10-01T00:00:00.000+00:00",
+        "heart_rate": {
+          "interval": 60,
+          "items": [
+            54,
+            73,
+            82,
+            90,
+            73,
+            53,
+            43,
+            33,
+            23,
+            13
+          ],
+          "timestamp": "2021-01-01T00:00:00.000+00:00"
+        },
+        "heart_rate_variability": {
+          "interval": 60,
+          "items": [
+            182,
+            185,
+            185,
+            186,
+            186,
+            188,
+            186,
+            184,
+            188,
+            187,
+            185,
+            187
+          ],
+          "timestamp": "2021-01-01T00:00:00.000+00:00"
+        },
+        "mood": "good",
+        "motion_count": {
+          "interval": 60,
+          "items": [
+            0,
+            0,
+            18,
+            9,
+            0,
+            0,
+            32,
+            0,
+            0,
+            0
+          ],
+          "timestamp": "2021-01-01T00:00:00.000+00:00"
+        },
+        "start_datetime": "2026-10-01T00:00:00.000+00:00",
+        "type": "breathing"
+      }
+    ],
+    "next_token": null
+  },
+  "heartrate": {
+    "data": [
+      {
+        "timestamp": "2026-10-01T00:00:00.000Z",
+        "bpm": 60,
+        "producer_timestamp": null,
+        "source": "awake"
+      },
+      {
+        "timestamp": "2026-10-02T00:00:00.000Z",
+        "bpm": 144,
+        "producer_timestamp": null,
+        "source": "workout"
+      }
+    ],
+    "next_token": null
+  },
+  "daily_resilience": {
+    "data": [
+      {
+        "id": "daily_resilience-0-2026-10-1",
+        "day": "2026-10-01",
+        "contributors": {
+          "sleep_recovery": 80,
+          "daytime_recovery": 70,
+          "stress": 90
+        },
+        "level": "limited"
+      }
+    ],
+    "next_token": null
+  },
+  "sleep_time": {
+    "data": [
+      {
+        "id": "sleep_time-0-2026-10-1",
+        "day": "2026-10-01",
+        "optimal_bedtime": {
+          "day_tz": 360,
+          "end_offset": 480,
+          "start_offset": -1080
+        },
+        "recommendation": "earlier_bedtime",
+        "status": "optimal_found"
+      }
+    ],
+    "next_token": null
+  },
+  "rest_mode_period": {
+    "data": [
+      {
+        "id": "rest_mode_period-0-2026-10-1",
+        "end_day": "2026-10-01",
+        "end_time": "2026-10-01T00:00:00.000+00:00",
+        "episodes": [
+          {
+            "tags": [
+              "generic_happy"
+            ],
+            "timestamp": "2021-01-01T02:00:00.000+02:00"
+          }
+        ],
+        "start_day": "2026-10-01",
+        "start_time": "2026-10-01T00:00:00.000+00:00"
+      }
+    ],
+    "next_token": null
+  },
+  "ring_configuration": {
+    "data": [
+      {
+        "id": "ring_configuration-0-2026-10-21",
+        "color": "glossy_black",
+        "design": "horizon",
+        "firmware_version": null,
+        "hardware_type": "gen3",
+        "set_up_at": "2026-10-21T00:00:00.000+00:00",
+        "size": 12
+      }
+    ],
+    "next_token": null
+  },
+  "sleep": {
+    "data": [
+      {
+        "id": "sleep-0-2026-10-1",
+        "average_breath": 10,
+        "average_heart_rate": 60,
+        "average_hrv": 70,
+        "awake_time": 10,
+        "bedtime_end": "2026-10-01T00:00:00.000+00:00",
+        "bedtime_start": "2026-10-01T00:00:00.000+00:00",
+        "day": "2026-10-01",
+        "deep_sleep_duration": 60,
+        "efficiency": 80,
+        "heart_rate": {
+          "interval": 60,
+          "items": [
+            54,
+            73,
+            82,
+            90,
+            100,
+            110,
+            120,
+            130,
+            140,
+            150
+          ],
+          "timestamp": "2021-01-01T00:00:00.000+00:00"
+        },
+        "hrv": {
+          "interval": 60,
+          "items": [
+            54,
+            73,
+            82,
+            90,
+            100,
+            110,
+            120,
+            130,
+            140,
+            150
+          ],
+          "timestamp": "2021-01-01T00:00:00.000+00:00"
+        },
+        "latency": 90,
+        "light_sleep_duration": 300,
+        "low_battery_alert": false,
+        "lowest_heart_rate": 54,
+        "movement_30_sec": "123124312341234",
+        "period": 1,
+        "readiness": {
+          "contributors": {
+            "activity_balance": 70,
+            "body_temperature": 70,
+            "hrv_balance": 80,
+            "previous_day_activity": 90,
+            "previous_night": 60,
+            "recovery_index": 90,
+            "resting_heart_rate": 60,
+            "sleep_balance": 70
+          },
+          "score": 80,
+          "temperature_deviation": 0.5,
+          "temperature_trend_deviation": 0.2
+        },
+        "readiness_score_delta": 10,
+        "rem_sleep_duration": 60,
+        "restless_periods": 10,
+        "sleep_algorithm_version": "v2",
+        "sleep_analysis_reason": null,
+        "sleep_phase_30_sec": null,
+        "sleep_phase_5_min": null,
+        "sleep_score_delta": 10,
+        "time_in_bed": 300,
+        "total_sleep_duration": 360,
+        "type": "long_sleep",
+        "ring_id": null,
+        "app_sleep_phase_5_min": "12341231231234"
+      }
+    ],
+    "next_token": null
+  },
+  "ring_battery_level": {
+    "data": [
+      {
+        "timestamp": "2026-10-01T00:00:00.000Z",
+        "charging": false,
+        "in_charger": false,
+        "level": 85,
+        "producer_timestamp": null
+      },
+      {
+        "timestamp": "2026-10-02T00:00:00.000Z",
+        "charging": true,
+        "in_charger": true,
+        "level": 95,
+        "producer_timestamp": null
+      }
+    ],
+    "next_token": null
+  },
+  "vO2_max": {
+    "data": [
+      {
+        "id": "vO2_max-1-2026-10-1",
+        "day": "2021-01-01",
+        "timestamp": "2021-01-01T00:00:00.000+00:00",
+        "vo2_max": 47
+      }
+    ],
+    "next_token": null
+  },
+  "daily_stress": {
+    "data": [
+      {
+        "id": "daily_stress-1-2026-10-1",
+        "day": "2026-10-01",
+        "day_summary": "stressful",
+        "recovery_high": 12,
+        "stress_high": 340
+      }
+    ],
+    "next_token": null
+  },
+  "personal_info": {
+    "id": "synthetic-profile",
+    "email": "example@example.com",
+    "age": 40,
+    "biological_sex": null,
+    "height": 1.75,
+    "weight": 70
+  }
+}

@@ -1,0 +1,1394 @@
+{
+  "PublicHeartRateRow": {
+    "properties": {
+      "timestamp": {
+        "$ref": "#/components/schemas/UtcDateTime",
+        "title": "",
+        "description": "Timestamp of the discrete sample."
+      },
+      "timestamp_unix": {
+        "type": "integer",
+        "title": "",
+        "description": "Timestamp of the discrete sample as unix time in milliseconds."
+      },
+      "bpm": {
+        "type": "integer",
+        "title": "",
+        "description": "Heart rate as beats per minute."
+      },
+      "source": {
+        "$ref": "#/components/schemas/PublicHeartRateSource",
+        "title": "",
+        "description": "Source of the sample."
+      }
+    },
+    "type": "object",
+    "required": [
+      "timestamp",
+      "timestamp_unix",
+      "bpm",
+      "source"
+    ],
+    "title": "PublicHeartRateRow",
+    "description": "Heart rate sample",
+    "x-cloud-only": true,
+    "x-collection": "publicheartrate",
+    "x-owner": "core-sensing-squad"
+  },
+  "UtcDateTime": {
+    "type": "string"
+  },
+  "PublicHeartRateSource": {
+    "type": "string",
+    "enum": [
+      "awake",
+      "workout",
+      "rest",
+      "sleep",
+      "live",
+      "session"
+    ],
+    "title": "PublicHeartRateSource",
+    "description": "Possible heart rate sources."
+  },
+  "PublicSession": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1,
+        "title": "",
+        "description": "Unique identifier of the object."
+      },
+      "day": {
+        "$ref": "#/components/schemas/ISODate",
+        "title": "",
+        "description": "The date when the session occurred."
+      },
+      "end_datetime": {
+        "$ref": "#/components/schemas/LocalizedDateTime",
+        "title": "",
+        "description": "Timestamp indicating when the Moment ended."
+      },
+      "heart_rate": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/PublicSample"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Recorded heart rate samples during the Moment."
+      },
+      "heart_rate_variability": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/PublicSample"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Recorded heart rate variability samples during the Moment."
+      },
+      "mood": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/PublicMomentMood"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "User-selected mood for the Moment."
+      },
+      "motion_count": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/PublicSample"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Recorded motion count samples during the Moment."
+      },
+      "start_datetime": {
+        "$ref": "#/components/schemas/LocalizedDateTime",
+        "title": "",
+        "description": "Timestamp indicating when the Moment started."
+      },
+      "type": {
+        "$ref": "#/components/schemas/PublicMomentType",
+        "title": "",
+        "description": "Type of the Moment."
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "day",
+      "end_datetime",
+      "start_datetime",
+      "type"
+    ],
+    "title": "PublicSession",
+    "description": "Public model defining a recorded Session.",
+    "x-cloud-only": true,
+    "x-collection": "publicsession",
+    "x-owner": "wellbeing-squad"
+  },
+  "ISODate": {
+    "type": "string"
+  },
+  "LocalizedDateTime": {
+    "type": "string"
+  },
+  "PublicSample": {
+    "properties": {
+      "interval": {
+        "type": "number",
+        "title": "",
+        "description": "Interval in seconds between the sampled items."
+      },
+      "items": {
+        "$ref": "#/components/schemas/Array_Union_float__NoneType__Bits64_",
+        "title": "",
+        "description": "Recorded sample items."
+      },
+      "timestamp": {
+        "$ref": "#/components/schemas/LocalizedDateTime",
+        "title": "",
+        "description": "Timestamp when the sample recording started."
+      }
+    },
+    "type": "object",
+    "required": [
+      "interval",
+      "items",
+      "timestamp"
+    ],
+    "title": "PublicSample",
+    "description": "Object defining a recorded sample."
+  },
+  "Array_Union_float__NoneType__Bits64_": {
+    "items": {
+      "anyOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "type": "array",
+    "title": "ArrayNullableFloatBits64"
+  },
+  "PublicMomentMood": {
+    "type": "string",
+    "enum": [
+      "bad",
+      "worse",
+      "same",
+      "good",
+      "great"
+    ],
+    "title": "PublicMomentMood",
+    "description": "Possible Moment moods."
+  },
+  "PublicMomentType": {
+    "type": "string",
+    "enum": [
+      "breathing",
+      "meditation",
+      "nap",
+      "relaxation",
+      "rest",
+      "body_status"
+    ],
+    "title": "PublicMomentType",
+    "description": "Possible Moment types."
+  },
+  "PublicModifiedSleepModel": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1,
+        "title": "",
+        "description": "Unique identifier of the object."
+      },
+      "average_breath": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Average breathing rate during sleep as breaths/minute."
+      },
+      "average_heart_rate": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Average heart rate during sleep as beats/minute. NOTE: this is the average calculated by ecore (based on 30-second samples) which is different from what is shown in the app. The app shows the average of aggregated 5-minute heart rate samples."
+      },
+      "average_hrv": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Average heart rate variability during sleep."
+      },
+      "awake_time": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Duration spent awake in seconds."
+      },
+      "bedtime_end": {
+        "$ref": "#/components/schemas/LocalizedDateTime",
+        "title": "",
+        "description": "Bedtime end of the sleep."
+      },
+      "bedtime_start": {
+        "$ref": "#/components/schemas/LocalizedDateTime",
+        "title": "",
+        "description": "Bedtime start of the sleep."
+      },
+      "day": {
+        "$ref": "#/components/schemas/ISODate",
+        "title": "",
+        "description": "Day that the sleep belongs to."
+      },
+      "deep_sleep_duration": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Duration spent in deep sleep in seconds."
+      },
+      "efficiency": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Sleep efficiency rating in range [1, 100]."
+      },
+      "heart_rate": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/PublicSample"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Object containing heart rate samples."
+      },
+      "hrv": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/PublicSample"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Object containing heart rate variability samples."
+      },
+      "latency": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Sleep latency in seconds. This is the time it took for the user to fall asleep after going to bed."
+      },
+      "light_sleep_duration": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Duration spent in light sleep in seconds."
+      },
+      "low_battery_alert": {
+        "type": "boolean",
+        "title": "",
+        "description": "Flag indicating if a low battery alert occurred."
+      },
+      "lowest_heart_rate": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Lowest heart rate during sleep. NOTE: this is the value calculated by ecore (based on 30-second samples) which is different from what is shown in the app. The app shows the minimum of aggregated 5-minute heart rate samples."
+      },
+      "movement_30_sec": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "30-second movement classification for the period where every character corresponds to:\n'1' = no motion,\n'2' = restless,\n'3' = tossing and turning\n'4' = active\nExample: \"1143222134\"."
+      },
+      "period": {
+        "type": "integer",
+        "title": "",
+        "description": "ECore sleep period identifier."
+      },
+      "readiness": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/PublicReadiness"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Object containing the readiness details."
+      },
+      "readiness_score_delta": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Effect on readiness score caused by this sleep period."
+      },
+      "rem_sleep_duration": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Duration spent in REM sleep in seconds."
+      },
+      "restless_periods": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Number of restless periods during sleep."
+      },
+      "sleep_algorithm_version": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/PublicSleepAlgorithmVersion"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Version of the sleep algorithm used to calculate the sleep data."
+      },
+      "sleep_analysis_reason": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/PublicSleepAnalysisReason"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "The reason for the creation or update of the latest version of this sleep."
+      },
+      "sleep_phase_30_sec": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "30-second sleep phase classification for the period where every character corresponds to:\n'1' = deep sleep,\n'2' = light sleep,\n'3' = REM sleep\n'4' = awake.\nExample: \"444423323441114\"."
+      },
+      "sleep_phase_5_min": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "5-minute sleep phase classification for the period where every character corresponds to:\n'1' = deep sleep,\n'2' = light sleep,\n'3' = REM sleep\n'4' = awake.\nExample: \"444423323441114\"."
+      },
+      "sleep_score_delta": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Effect on sleep score caused by this sleep period."
+      },
+      "time_in_bed": {
+        "type": "integer",
+        "title": "",
+        "description": "Duration spent in bed in seconds."
+      },
+      "total_sleep_duration": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Total sleep duration in seconds."
+      },
+      "type": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/PublicSleepType"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Type of the sleep period."
+      },
+      "ring_id": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Ring Id",
+        "description": "Encrypted identifier of the ring that produced this sleep data. Deprecated, returns null."
+      },
+      "app_sleep_phase_5_min": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "App Sleep Phase 5 Min",
+        "description": "\n        5-minute sleep phase classification for the period aligned with what is shown in the app\n        where every character corresponds to:\n        '1' = deep sleep,\n        '2' = light sleep,\n        '3' = REM sleep\n        '4' = awake.\n        Example: \"444423323441114\".\n        NOTE: This field will be removed in the future after a transition period.\n        "
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "bedtime_end",
+      "bedtime_start",
+      "day",
+      "low_battery_alert",
+      "period",
+      "time_in_bed"
+    ],
+    "title": "PublicModifiedSleepModel",
+    "x-cloud-only": true,
+    "x-collection": "publicsleepmodel",
+    "x-owner": "sleep-squad"
+  },
+  "PublicReadiness": {
+    "properties": {
+      "contributors": {
+        "$ref": "#/components/schemas/PublicReadinessContributors",
+        "title": "",
+        "description": "Contributors of the readiness score."
+      },
+      "score": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Readiness score in range [1, 100]."
+      },
+      "temperature_deviation": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Temperature deviation in degrees Celsius."
+      },
+      "temperature_trend_deviation": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Temperature trend deviation in degrees Celsius."
+      }
+    },
+    "type": "object",
+    "required": [
+      "contributors"
+    ],
+    "title": "PublicReadiness",
+    "description": "Object defining readiness."
+  },
+  "PublicReadinessContributors": {
+    "properties": {
+      "activity_balance": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Contribution of cumulative activity balance in range [1, 100]."
+      },
+      "body_temperature": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Contribution of body temperature in range [1, 100]."
+      },
+      "hrv_balance": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Contribution of heart rate variability balance in range [1, 100]."
+      },
+      "previous_day_activity": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Contribution of previous day's activity in range [1, 100]."
+      },
+      "previous_night": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Contribution of previous night's sleep in range [1, 100]."
+      },
+      "recovery_index": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Contribution of recovery index in range [1, 100]."
+      },
+      "resting_heart_rate": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Contribution of resting heart rate in range [1, 100]."
+      },
+      "sleep_balance": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Contribution of sleep balance in range [1, 100]."
+      },
+      "sleep_regularity": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Contribution of sleep regularity in range [1, 100]."
+      }
+    },
+    "type": "object",
+    "title": "PublicReadinessContributors",
+    "description": "Object defining readiness score contributors."
+  },
+  "PublicSleepAlgorithmVersion": {
+    "type": "string",
+    "enum": [
+      "v1",
+      "v2"
+    ],
+    "title": "PublicSleepAlgorithmVersion",
+    "description": "Oura Sleep Staging Algorithms.\nv1 = original aka legacy aka OSSA 1.0,\nv2 = latest sleep algorithm"
+  },
+  "PublicSleepAnalysisReason": {
+    "type": "string",
+    "enum": [
+      "foreground_sleep_analysis",
+      "bedtime_edit",
+      "background_sleep_analysis",
+      "background_created_foreground_updated"
+    ],
+    "title": "PublicSleepAnalysisReason",
+    "description": "Possible sleep analysis reasons."
+  },
+  "PublicSleepType": {
+    "type": "string",
+    "enum": [
+      "deleted",
+      "sleep",
+      "long_sleep",
+      "late_nap",
+      "rest"
+    ],
+    "title": "PublicSleepType",
+    "description": "Possible sleep period types.\n'deleted' = deleted sleep by user.\n'sleep' = user confirmed sleep / nap, min 15 minutes, max 3 hours, contributes to daily scores\n'late_nap' = user confirmed sleep / nap, min 15 minutes, ended after sleep day change (6 pm), contributes to next days daily scores\n'long_sleep' = sleep that is long enough (>3h) to automatically contribute to daily scores\n'rest' = Falsely detected sleep / nap, rejected in confirm prompt by user"
+  },
+  "PublicDailyStress": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1,
+        "title": "",
+        "description": "Unique identifier of the object."
+      },
+      "day": {
+        "$ref": "#/components/schemas/ISODate",
+        "title": "",
+        "description": "Day that the daily stress belongs to."
+      },
+      "day_summary": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/PublicDailyStressSummary"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Stress summary of full day."
+      },
+      "recovery_high": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Time spent in a high recovery zone (bottom quartile data) in seconds."
+      },
+      "stress_high": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Time spent in a high stress zone (top quartile of data) in seconds."
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "day"
+    ],
+    "title": "PublicDailyStress",
+    "description": "Daily stress.",
+    "x-cloud-only": true,
+    "x-collection": "publicdailystress",
+    "x-owner": "wellbeing-squad"
+  },
+  "PublicDailyStressSummary": {
+    "type": "string",
+    "enum": [
+      "restored",
+      "normal",
+      "stressful"
+    ],
+    "title": "PublicDailyStressSummary",
+    "description": "Possible public daily stress summary types."
+  },
+  "DailyResilienceModel": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "title": "Id"
+      },
+      "day": {
+        "type": "string",
+        "format": "date",
+        "title": "Day",
+        "description": "Day when the resilience record was recorded."
+      },
+      "contributors": {
+        "$ref": "#/components/schemas/ResilienceContributors",
+        "description": "Contributors to the resilience score."
+      },
+      "level": {
+        "$ref": "#/components/schemas/LongTermResilienceLevel",
+        "description": "Resilience level."
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "day",
+      "contributors",
+      "level"
+    ],
+    "title": "DailyResilienceModel"
+  },
+  "ResilienceContributors": {
+    "properties": {
+      "sleep_recovery": {
+        "type": "number",
+        "title": "Sleep Recovery",
+        "description": "Sleep recovery contributor to the resilience score. Range: [0, 100]"
+      },
+      "daytime_recovery": {
+        "type": "number",
+        "title": "Daytime Recovery",
+        "description": "Daytime recovery contributor to the resilience score. Range: [0, 100]"
+      },
+      "stress": {
+        "type": "number",
+        "title": "Stress",
+        "description": "Stress contributor to the resilience score. Range: [0, 100]"
+      }
+    },
+    "type": "object",
+    "required": [
+      "sleep_recovery",
+      "daytime_recovery",
+      "stress"
+    ],
+    "title": "ResilienceContributors"
+  },
+  "LongTermResilienceLevel": {
+    "type": "string",
+    "enum": [
+      "limited",
+      "adequate",
+      "solid",
+      "strong",
+      "exceptional"
+    ],
+    "title": "LongTermResilienceLevel",
+    "description": "Possible long term resilience level values."
+  },
+  "PublicSleepTime": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1,
+        "title": "",
+        "description": "Unique identifier of the object."
+      },
+      "day": {
+        "$ref": "#/components/schemas/ISODate",
+        "title": "",
+        "description": "Corresponding day for the sleep time."
+      },
+      "optimal_bedtime": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/PublicSleepTimeWindow"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Optimal bedtime."
+      },
+      "recommendation": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/PublicSleepTimeRecommendation"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Recommended action for bedtime."
+      },
+      "status": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/PublicSleepTimeStatus"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Sleep time status; used to inform sleep time recommendation."
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "day"
+    ],
+    "title": "PublicSleepTime",
+    "description": "Suggested bedtime for the user.",
+    "x-cloud-only": true,
+    "x-collection": "publicsleeptime",
+    "x-owner": "sleep-squad"
+  },
+  "PublicSleepTimeWindow": {
+    "properties": {
+      "day_tz": {
+        "type": "integer",
+        "title": "",
+        "description": "Timezone offset in second from GMT of the day"
+      },
+      "end_offset": {
+        "type": "integer",
+        "title": "",
+        "description": "End offset from midnight in second"
+      },
+      "start_offset": {
+        "type": "integer",
+        "title": "",
+        "description": "Start offset from midnight in second"
+      }
+    },
+    "type": "object",
+    "required": [
+      "day_tz",
+      "end_offset",
+      "start_offset"
+    ],
+    "title": "PublicSleepTimeWindow",
+    "description": "Object defining sleep time window"
+  },
+  "PublicSleepTimeRecommendation": {
+    "type": "string",
+    "enum": [
+      "improve_efficiency",
+      "earlier_bedtime",
+      "later_bedtime",
+      "earlier_wake_up_time",
+      "later_wake_up_time",
+      "follow_optimal_bedtime"
+    ],
+    "title": "PublicSleepTimeRecommendation",
+    "description": "Possible public SleepTime recommendation."
+  },
+  "PublicSleepTimeStatus": {
+    "type": "string",
+    "enum": [
+      "not_enough_nights",
+      "not_enough_recent_nights",
+      "bad_sleep_quality",
+      "only_recommended_found",
+      "optimal_found"
+    ],
+    "title": "PublicSleepTimeStatus",
+    "description": "Possible public SleepTime status."
+  },
+  "PublicRestModePeriod": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1,
+        "title": "",
+        "description": "Unique identifier of the object."
+      },
+      "end_day": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/ISODate"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "End date of rest mode."
+      },
+      "end_time": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/LocalizedDateTime"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Timestamp when rest mode ended."
+      },
+      "episodes": {
+        "items": {
+          "$ref": "#/components/schemas/PublicRestModeEpisode"
+        },
+        "type": "array",
+        "title": "",
+        "description": "Collection of episodes during rest mode, consisting of tags."
+      },
+      "start_day": {
+        "$ref": "#/components/schemas/ISODate",
+        "title": "",
+        "description": "Start date of rest mode."
+      },
+      "start_time": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/LocalizedDateTime"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Timestamp when rest mode ended."
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "episodes",
+      "start_day"
+    ],
+    "title": "PublicRestModePeriod",
+    "description": "Rest mode episode information.",
+    "x-cloud-only": true,
+    "x-collection": "publicrestmodeperiod",
+    "x-owner": "sleep-squad"
+  },
+  "PublicRestModeEpisode": {
+    "properties": {
+      "tags": {
+        "items": {
+          "type": "string"
+        },
+        "type": "array",
+        "title": "",
+        "description": "Tags selected for the episode."
+      },
+      "timestamp": {
+        "$ref": "#/components/schemas/LocalizedDateTime",
+        "title": "",
+        "description": "Timestamp indicating when the episode occurred."
+      }
+    },
+    "type": "object",
+    "required": [
+      "tags",
+      "timestamp"
+    ],
+    "title": "PublicRestModeEpisode",
+    "description": "Object defining a public Rest Mode episode."
+  },
+  "PublicDailyCardiovascularAge": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1,
+        "title": "",
+        "description": "Unique identifier of the object."
+      },
+      "day": {
+        "$ref": "#/components/schemas/ISODate",
+        "title": "",
+        "description": "Day that the prediction belongs to."
+      },
+      "pulse_wave_velocity": {
+        "anyOf": [
+          {
+            "type": "number"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Pulse wave velocity (m/s), derived from vascular age, with possible offset added."
+      },
+      "vascular_age": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Predicted vascular age in range [18, 100]."
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "day"
+    ],
+    "title": "PublicDailyCardiovascularAge",
+    "description": "Daily Cardiovascular Age.",
+    "x-cloud-only": true,
+    "x-collection": "publicdailycardiovascularage",
+    "x-owner": "heart-health-squad"
+  },
+  "PublicVO2Max": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1,
+        "title": "",
+        "description": "Unique identifier of the object."
+      },
+      "day": {
+        "$ref": "#/components/schemas/ISODate",
+        "title": "",
+        "description": "Day that the estimate belongs to."
+      },
+      "timestamp": {
+        "$ref": "#/components/schemas/LocalizedDateTime",
+        "title": "",
+        "description": "Timestamp indicating when the estimate was created."
+      },
+      "vo2_max": {
+        "type": "integer",
+        "title": "",
+        "description": "VO2 max value."
+      }
+    },
+    "type": "object",
+    "required": [
+      "id",
+      "day",
+      "timestamp",
+      "vo2_max"
+    ],
+    "title": "PublicVO2Max",
+    "description": "VO2Max estimate.",
+    "x-cloud-only": true,
+    "x-collection": "publicvo2max",
+    "x-owner": "movement-squad"
+  },
+  "PublicRingConfiguration": {
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1,
+        "title": "",
+        "description": "Unique identifier of the object."
+      },
+      "color": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/PublicRingColor"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Color of the ring."
+      },
+      "design": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/PublicRingDesign"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Design of the ring."
+      },
+      "firmware_version": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Firmware version of the ring."
+      },
+      "hardware_type": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/PublicRingHardwareType"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Hardware type of the ring."
+      },
+      "set_up_at": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/UtcDateTime"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "UTC timestamp indicating when the ring was set up."
+      },
+      "size": {
+        "anyOf": [
+          {
+            "type": "integer"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "US size of the ring."
+      }
+    },
+    "type": "object",
+    "required": [
+      "id"
+    ],
+    "title": "PublicRingConfiguration",
+    "description": "Ring configuration.",
+    "x-cloud-only": true,
+    "x-collection": "publicringconfiguration",
+    "x-owner": "connectivity-squad"
+  },
+  "PublicRingColor": {
+    "type": "string",
+    "enum": [
+      "brushed_silver",
+      "glossy_black",
+      "glossy_gold",
+      "glossy_white",
+      "gucci",
+      "matt_gold",
+      "rose",
+      "silver",
+      "stealth_black",
+      "titanium",
+      "titanium_and_gold",
+      "cloud",
+      "petal",
+      "midnight",
+      "tide",
+      "deep_rose"
+    ],
+    "title": "PublicRingColor",
+    "description": "Possible ring colors."
+  },
+  "PublicRingDesign": {
+    "type": "string",
+    "enum": [
+      "heritage",
+      "balance",
+      "balance_diamond",
+      "horizon",
+      "ceramic"
+    ],
+    "title": "PublicRingDesign",
+    "description": "Possible ring designs."
+  },
+  "PublicRingHardwareType": {
+    "type": "string",
+    "enum": [
+      "gen1",
+      "gen2",
+      "gen2m",
+      "gen3",
+      "gen4",
+      "or5"
+    ],
+    "title": "PublicRingHardwareType",
+    "description": "Possible ring hardware types."
+  },
+  "PublicRingBatteryLevelRow": {
+    "properties": {
+      "timestamp": {
+        "$ref": "#/components/schemas/UtcDateTime",
+        "title": "",
+        "description": "Timestamp of the discrete sample."
+      },
+      "timestamp_unix": {
+        "type": "integer",
+        "title": "",
+        "description": "Timestamp of the discrete sample as unix time in milliseconds."
+      },
+      "charging": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Flag indicating if the ring was charging."
+      },
+      "in_charger": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "",
+        "description": "Flag indicating if the ring was in charger."
+      },
+      "level": {
+        "type": "integer",
+        "title": "",
+        "description": "Ring battery level percentage. These values are within [0, 100]."
+      }
+    },
+    "type": "object",
+    "required": [
+      "timestamp",
+      "timestamp_unix",
+      "level"
+    ],
+    "title": "PublicRingBatteryLevelRow",
+    "description": "Object defining a ring battery level event.",
+    "x-cloud-only": true,
+    "x-collection": "publicringbatterylevel",
+    "x-owner": "connectivity-squad"
+  }
+}
